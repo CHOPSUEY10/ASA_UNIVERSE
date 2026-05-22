@@ -32,5 +32,8 @@ export default defineConfig({
 				}
 			}
 		]
-	}
+	},
+	ssr: {
+        external: ['@prisma/client']
+    }
 });
