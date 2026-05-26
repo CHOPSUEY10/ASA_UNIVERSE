@@ -1,7 +1,9 @@
+
 import 'dotenv/config';
 
-import { PrismaClient } from '../src/lib/generated/prisma/client.js';
+import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
+
 
 declare const process: any;
 
@@ -16,7 +18,10 @@ const prisma = new PrismaClient({
 async function main() {
 	console.log('🧹 Menghapus data lama...');
 
-	// Hapus berdasarkan dependency relation
+	// =====================================================
+	// DELETE DATA (URUT BERDASARKAN RELATION)
+	// =====================================================
+
 	await prisma.orderItem.deleteMany();
 	await prisma.order.deleteMany();
 
@@ -28,9 +33,12 @@ async function main() {
 	await prisma.category.deleteMany();
 
 	await prisma.visitorLog.deleteMany();
-
 	await prisma.contactInformation.deleteMany();
 
+	// Better Auth tables
+	await prisma.session.deleteMany();
+	await prisma.account.deleteMany();
+	await prisma.verification.deleteMany();
 	await prisma.user.deleteMany();
 
 	console.log('🌱 Membuat data seed...');
@@ -39,23 +47,51 @@ async function main() {
 	// USERS
 	// =====================================================
 
-	await prisma.user.create({
+	const admin = await prisma.user.create({
 		data: {
 			name: 'Admin ASA Universe',
 			email: 'admin@asauniverse.com',
-			phone: '081234567890',
-			passwordHash: 'dummy_hashed_password',
-			role: 'ADMIN'
+			emailVerified: true,
+			image: 'https://via.placeholder.com/300x300?text=Admin'
 		}
 	});
 
-	await prisma.user.create({
+	await prisma.user.createMany({
+		data : [
+			{
+				name: 'Budi',
+				email: 'budi12@gmail.com',
+				emailVerified: true,
+				image: 'https://via.placeholder.com/300x300?text=Budi'
+
+			},
+
+			{
+				name: 'Putri',
+				email: 'putri897@gmail.com',
+				emailVerified: true,
+				image: 'https://via.placeholder.com/300x300?text=Putri'
+
+			},
+
+			{
+				name: 'Fanny',
+				email: 'fanny17@gmail.com',
+				emailVerified: true,
+				image: 'https://via.placeholder.com/300x300?text=Fanny'
+
+			},
+		]
+})
+
+
+
+	const customerService = await prisma.user.create({
 		data: {
 			name: 'Customer Service ASA',
 			email: 'cs@asauniverse.com',
-			phone: '081298765432',
-			passwordHash: 'dummy_hashed_password',
-			role: 'CUSTOMER_SERVICE'
+			emailVerified: true,
+			image: 'https://via.placeholder.com/300x300?text=CS'
 		}
 	});
 
@@ -91,24 +127,18 @@ async function main() {
 		}
 	});
 
-	const aksesorisCategory = await prisma.category.create({
-		data: {
-			name: 'Aksesoris',
-			slug: 'aksesoris'
-		}
-	});
 
 	// =====================================================
 	// PRODUCTS
 	// =====================================================
 
-	const flanel = await prisma.product.create({
+	const jerseyHome = await prisma.product.create({
 		data: {
-			name: 'Kemeja Flanel Kotak',
-			slug: 'kemeja-flanel-kotak',
+			name: 'Jersey Futsal ASA Home',
+			slug: 'jersey-futsal-asa-home',
 			description:
-				'Kemeja flanel premium berbahan lembut dan nyaman dipakai sehari-hari.',
-			price: 150000,
+				'Jersey futsal dry-fit premium dengan bahan ringan dan cepat menyerap keringat.',
+			price: 185000,
 			stock: 50,
 			isFeatured: true,
 			isActive: true,
@@ -119,17 +149,17 @@ async function main() {
 				create: [
 					{
 						size: 'M',
-						color: 'Merah Hitam',
+						color: 'Hitam Merah',
 						stock: 20
 					},
 					{
 						size: 'L',
-						color: 'Merah Hitam',
+						color: 'Hitam Merah',
 						stock: 20
 					},
 					{
 						size: 'XL',
-						color: 'Merah Hitam',
+						color: 'Hitam Merah',
 						stock: 10
 					}
 				]
@@ -139,12 +169,12 @@ async function main() {
 				create: [
 					{
 						imageUrl:
-							'https://via.placeholder.com/600x800?text=Flanel+Depan',
+							'https://via.placeholder.com/600x800?text=Jersey+Home',
 						isPrimary: true
 					},
 					{
 						imageUrl:
-							'https://via.placeholder.com/600x800?text=Flanel+Belakang',
+							'https://via.placeholder.com/600x800?text=Jersey+Belakang',
 						isPrimary: false
 					}
 				]
@@ -154,10 +184,9 @@ async function main() {
 
 	const kaos = await prisma.product.create({
 		data: {
-			name: 'Kaos Oversize Hitam',
-			slug: 'kaos-oversize-hitam',
-			description:
-				'Kaos oversize berbahan cotton combed premium.',
+			name: 'Kaos Sport Training Hitam',
+			slug: 'kaos-sport-training-hitam',
+			description: 'Kaos sport training berbahan dry-fit breathable untuk olahraga.',
 			price: 95000,
 			stock: 100,
 			isFeatured: true,
@@ -184,7 +213,7 @@ async function main() {
 				create: [
 					{
 						imageUrl:
-							'https://via.placeholder.com/600x800?text=Kaos+Oversize',
+							'https://via.placeholder.com/600x800?text=Kaos+Sport',
 						isPrimary: true
 					}
 				]
@@ -192,14 +221,13 @@ async function main() {
 		}
 	});
 
-	const chino = await prisma.product.create({
+	const celanaTraining = await prisma.product.create({
 		data: {
-			name: 'Celana Chino Panjang',
-			slug: 'celana-chino-panjang',
-			description:
-				'Celana chino slim fit dengan bahan stretch premium.',
-			price: 185000,
-			stock: 30,
+			name: 'Celana Training Sport',
+			slug: 'celana-training-sport',
+			description: 'Celana training olahraga fleksibel dan nyaman dipakai aktivitas sport.',
+			price: 145000,
+			stock: 35,
 			isFeatured: false,
 			isActive: true,
 
@@ -209,13 +237,18 @@ async function main() {
 				create: [
 					{
 						size: '30',
-						color: 'Khaki',
+						color: 'Hitam',
 						stock: 15
 					},
 					{
 						size: '32',
-						color: 'Khaki',
-						stock: 15
+						color: 'Hitam',
+						stock: 10
+					},
+					{
+						size: '34',
+						color: 'Hitam',
+						stock: 10
 					}
 				]
 			},
@@ -224,7 +257,7 @@ async function main() {
 				create: [
 					{
 						imageUrl:
-							'https://via.placeholder.com/600x800?text=Celana+Chino',
+							'https://via.placeholder.com/600x800?text=Celana+Training',
 						isPrimary: true
 					}
 				]
@@ -239,7 +272,7 @@ async function main() {
 	await prisma.productReview.createMany({
 		data: [
 			{
-				productId: flanel.id,
+				productId: jerseyHome.id,
 				customerName: 'Fadli',
 				rating: 5,
 				comment: 'Bahannya bagus dan nyaman dipakai.'
@@ -249,6 +282,12 @@ async function main() {
 				customerName: 'Andi',
 				rating: 4,
 				comment: 'Oversize-nya pas banget.'
+			},
+			{
+				productId: celanaTraining.id,
+				customerName: 'Rizky',
+				rating: 5,
+				comment: 'Bahannya tebal dan jahitannya rapi.'
 			}
 		]
 	});
@@ -260,9 +299,10 @@ async function main() {
 	const order = await prisma.order.create({
 		data: {
 			customerName: 'Budi',
-			phone: '081277788899',
+			userId : 'cmpl41duc0001d8tuid08479y',
+			email : 'budisetiawan@gmail.com',
 			totalPrice: 245000,
-			status: 'CONFIRMED'
+			status: 'CONFIRMED',
 		}
 	});
 
@@ -270,7 +310,7 @@ async function main() {
 		data: [
 			{
 				orderId: order.id,
-				productId: flanel.id,
+				productId: jerseyHome.id,
 				quantity: 1,
 				price: 150000
 			},
@@ -302,12 +342,16 @@ async function main() {
 			{
 				ipAddress: '127.0.0.1',
 				userAgent: 'Mobile Safari',
-				path: '/products/kaos-oversize-hitam'
+				path: '/products/kaos-sport-training-hitam'
 			}
 		]
 	});
 
 	console.log('✅ Seeding berhasil!');
+	console.log({
+		admin,
+		customerService
+	});
 }
 
 main()
@@ -319,3 +363,4 @@ main()
 	.finally(async () => {
 		await prisma.$disconnect();
 	});
+

@@ -5,9 +5,9 @@ import type { RequestEvent } from '@sveltejs/kit';
 
 const betterAuthHandler = toSvelteKitHandler(auth);
 
-const debugHandler = async (event: RequestEvent) => {
+const Handler = async (event: RequestEvent) => {
     return betterAuthHandler(event);
 };
 
-export const GET = debugHandler;
-export const POST = debugHandler;
+export const GET = Handler;
+export const POST = Handler;

@@ -24,6 +24,7 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  orders        Order[]
 
   @@unique([email])
   @@map("user")
@@ -134,8 +135,11 @@ model ProductReview {
 model Order {
   id String @id @default(cuid())
 
-  customerName String
-  phone        String
+  userId String
+  user   User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  customerName String?
+  email        String?
 
   totalPrice Int
 
