@@ -15,18 +15,43 @@ import { getRequestEvent } from '$app/server';
 // console.log("3. Daftar isi Prisma:", Object.keys(prisma).filter(k => !k.startsWith('_') && !k.startsWith('$')));
 // console.log("=======================");
 
+import { emailOTP } from "better-auth/plugins";
+
 export const auth = betterAuth({
 	baseURL: env.ORIGIN +  "/api/auth",
 	secret: env.BETTER_AUTH_SECRET,
 	database: prismaAdapter(prisma, { provider : 'postgresql'}),
-	emailAndPassword: { enabled: true },
+	user: {
+		additionalFields: {
+			role: {
+				type: "string",
+				defaultValue: "user"
+			}
+		}
+	},
+	emailAndPassword: { 
+		enabled: true,
+		sendResetPassword: async ({ user, url }) => {
+			// This is the fallback if standard reset is used. We'll use OTP below.
+			console.log(`Kirim link reset ke ${user.email}: ${url}`);
+		}
+	},
 	socialProviders: {
-		github: {
-			clientId: env.GITHUB_CLIENT_ID,
-			clientSecret: env.GITHUB_CLIENT_SECRET
+		google: {
+			clientId: env.GOOGLE_CLIENT_ID || 'dummy',
+			clientSecret: env.GOOGLE_CLIENT_SECRET || 'dummy'
 		}
 	},
 	plugins: [
+		emailOTP({
+			async sendVerificationOTP({ email, otp, type }) {
+				// Implement sending email here (e.g. via nodemailer)
+				console.log(`[EMAIL OTP] Type: ${type} | Mengirim OTP ${otp} ke ${email}`);
+				
+				// In MVP, we just console.log the OTP. 
+				// The real implementation would use nodemailer with env.SMTP_URL
+			}
+		}),
 		sveltekitCookies(getRequestEvent) // make sure this is the last plugin in the array
 	]
 });

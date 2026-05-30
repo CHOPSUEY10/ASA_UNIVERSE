@@ -26,6 +26,7 @@ model User {
   accounts       Account[]
   orders         Order[]
   productReviews ProductReview[]
+  role           String          @default("user")
 
   @@unique([email])
   @@map("user")
@@ -167,6 +168,7 @@ model Order {
 }
 
 enum OrderStatus {
+  CART
   PENDING
   CONFIRMED
   CANCELLED
