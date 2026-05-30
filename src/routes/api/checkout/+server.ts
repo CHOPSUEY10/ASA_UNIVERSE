@@ -19,19 +19,23 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         const userId = locals.user.id;
 
         const order = await prisma.order.findFirst({
-            where: { userId, status: 'CART' }
+            where: { userId, status: 'CART' },
+            include: { items: true }
         });
 
-        if (!order) {
+        if (!order || order.items.length === 0) {
             return json({ error: 'Keranjang kosong.' }, { status: 400 });
         }
 
-        // Update the order status to PENDING and calculate total if needed
+        // Calculate total accurately on the server
+        const calculatedTotal = order.items.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
+
+        // Update the order status to PENDING and set accurate total
         const updatedOrder = await prisma.order.update({
             where: { id: order.id },
             data: {
                 status: 'PENDING',
-                totalPrice: total
+                totalPrice: calculatedTotal
             }
         });
 

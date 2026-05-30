@@ -48,7 +48,10 @@ export const POST: RequestHandler = async ({ request }) => {
                 stock: body.stock,
                 isFeatured: body.isfeatured ?? false,
                 isActive: true,
-                categoryId: body.categoryId
+                kainId: Number(body.kainId),
+                images: {
+                    create: (body.images || []).map((url: string) => ({ url }))
+                }
             }
         })
 

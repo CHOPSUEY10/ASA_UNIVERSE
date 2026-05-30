@@ -1,32 +1,63 @@
 <script lang="ts">
-    import { authClient } from '$lib/auth-client';
+    import { enhance } from '$app/forms';
     import { toast } from '$lib/stores/toast';
+    import type { ActionData } from './$types';
+    import { onMount, onDestroy } from 'svelte';
 
-    let email = $state('');
+    let { form } = $props<{ form: ActionData }>();
+    
+    let email = $state(form?.email ?? '');
     let isLoading = $state(false);
 
-    const handleForgotPassword = async (event: Event) => {
-        event.preventDefault(); 
-        
-        isLoading = true;
+    let cooldownRemaining = $state(0);
+    let hasSentOtp = $state(false);
+    let interval: ReturnType<typeof setInterval>;
 
-        // We use emailOtp plugin to send OTP
-        const { data, error } = await authClient.emailOtp.sendVerificationOtp({
-            email,
-            type: "forget-password"
-        });
+    const COOLDOWN_KEY = 'otp_cooldown_expiry';
+    const COOLDOWN_TIME = 3 * 60 * 1000; // 3 minutes
 
-        isLoading = false;
-
-        if (error) {
-            toast.add(error.message || 'Gagal mengirim OTP, pastikan email terdaftar.', 'error');
-        } else {
-            toast.add('Kode OTP telah dikirim ke email Anda.', 'success');
-            setTimeout(() => {
-                goto(`/reset-password?email=${encodeURIComponent(email)}`);
-            }, 2000);
+    onMount(() => {
+        const expiry = localStorage.getItem(COOLDOWN_KEY);
+        if (expiry) {
+            hasSentOtp = true;
+            const remaining = Math.max(0, parseInt(expiry) - Date.now());
+            if (remaining > 0) {
+                startCooldown(remaining);
+            } else {
+                cooldownRemaining = 0;
+            }
         }
-    };
+    });
+
+    onDestroy(() => {
+        if (interval) clearInterval(interval);
+    });
+
+    function startCooldown(durationMs: number) {
+        cooldownRemaining = Math.ceil(durationMs / 1000);
+        
+        if (interval) clearInterval(interval);
+        
+        interval = setInterval(() => {
+            cooldownRemaining -= 1;
+            if (cooldownRemaining <= 0) {
+                clearInterval(interval);
+                cooldownRemaining = 0;
+            }
+        }, 1000);
+    }
+
+    $effect(() => {
+        if (form?.error) {
+            toast.add(form.error, 'error');
+        }
+    });
+
+    function formatTime(seconds: number) {
+        const m = Math.floor(seconds / 60);
+        const s = seconds % 60;
+        return `${m}:${s.toString().padStart(2, '0')}`;
+    }
 </script>
 
 <svelte:head>
@@ -37,14 +68,60 @@
     <h1 class="text-3xl font-bold text-white mb-2 text-center">Ubah Password</h1>
     <p class="text-gray-400 text-center mb-6 text-sm">Masukkan email Anda untuk menerima kode OTP.</p>
 
-    <form onsubmit={handleForgotPassword} class="space-y-5">
+    <form 
+        method="POST" 
+        use:enhance={() => {
+            isLoading = true;
+            return async ({ update, result }) => {
+                if (result.type === 'redirect') {
+                    const expiry = Date.now() + COOLDOWN_TIME;
+                    localStorage.setItem(COOLDOWN_KEY, expiry.toString());
+                    hasSentOtp = true;
+                    startCooldown(COOLDOWN_TIME);
+                }
+                await update();
+                isLoading = false;
+            };
+        }} 
+        class="space-y-5"
+    >
+        {#if form?.error}
+            <div class="p-3 bg-red-900/50 border border-red-500 rounded-lg text-red-200 text-sm text-center">
+                {form.error}
+            </div>
+        {/if}
+
         <div>
             <label for="email" class="block text-sm font-medium text-gray-300 mb-2">Email Akun Anda</label>
-            <input type="email" id="email" bind:value={email} required class="block w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-lg text-white focus:ring-red-500 focus:border-red-500 transition-colors" placeholder="nama@email.com" />
+            <input 
+                type="email" 
+                id="email" 
+                name="email"
+                bind:value={email} 
+                required 
+                class="block w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-lg text-white focus:ring-red-500 focus:border-red-500 transition-colors" 
+                placeholder="nama@email.com" 
+            />
         </div>
 
-        <button type="submit" disabled={isLoading} class="w-full py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50">
-            {isLoading ? 'Mengirim...' : 'Kirim Kode OTP'}
+        <button 
+            type="submit" 
+            disabled={isLoading || cooldownRemaining > 0} 
+            class="w-full py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 flex justify-center items-center"
+        >
+            {#if isLoading}
+                <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                </svg>
+                Mengirim...
+            {:else if cooldownRemaining > 0}
+                Kirim Ulang OTP dalam {formatTime(cooldownRemaining)}
+            {:else if hasSentOtp}
+                Kirim Ulang Kode OTP
+            {:else}
+                Kirim Kode OTP
+            {/if}
         </button>
     </form>
 

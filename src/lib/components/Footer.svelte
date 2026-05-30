@@ -36,6 +36,7 @@
         </div>
         <div class="mt-8 pt-8 border-t border-zinc-800 text-center">
             <p class="text-sm text-gray-500">&copy; {new Date().getFullYear()} ASA Universe. All rights reserved.</p>
+            <p class="text-sm text-gray-500">Made with SvelteKit by catalyst team </p>
         </div>
     </div>
 </footer>

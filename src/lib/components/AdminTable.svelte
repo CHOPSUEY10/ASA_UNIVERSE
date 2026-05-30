@@ -25,8 +25,8 @@
                         <td class="px-6 py-4 whitespace-nowrap">
                             {#if column.type === 'action'}
                                 <div class="flex space-x-2">
-                                    <button onclick={() => onEdit(row.id)} class="text-blue-500 hover:text-blue-400 font-medium text-sm">Edit</button>
-                                    <button onclick={() => onDelete(row.id)} class="text-red-500 hover:text-red-400 font-medium text-sm">Delete</button>
+                                    <button onclick={() => onEdit(row.id)} class="bg-blue-500/10 text-blue-500 hover:bg-blue-500/20 font-medium text-sm px-3 py-2 rounded-md transition-colors">Edit</button>
+                                    <button onclick={() => onDelete(row.id)} class="bg-red-500/10 text-red-500 hover:bg-red-500/20 font-medium text-sm px-3 py-2 rounded-md transition-colors">Delete</button>
                                 </div>
                             {:else if column.type === 'currency'}
                                 <div class="text-sm text-gray-300">

@@ -4,6 +4,7 @@
     import CartItem from '$lib/components/CartItem.svelte';
     import Header from '$lib/components/Header.svelte';
     import Footer from '$lib/components/Footer.svelte';
+    import { config } from '$lib/config';
 
     let subtotal = $derived($cart.reduce((total, item) => total + (item.price * item.quantity), 0));
     let totalItems = $derived($cart.reduce((total, item) => total + item.quantity, 0));
@@ -48,7 +49,7 @@
             const { orderId } = await response.json();
 
             // 2. Redirect ke WhatsApp
-            const phone = '6281234567890'; // Replace with real UMKM number
+            const phone = config.whatsapp.csNumber;
             
             let text = `Halo ASA Universe! Saya ingin memesan produk-produk berikut dari Keranjang saya:\n`;
             text += `*Order ID:* ${orderId}\n\n`;
@@ -114,48 +115,58 @@
                     </div>
 
                     <!-- Order Summary -->
-                    <div class="mt-8 lg:mt-0 lg:col-span-4 bg-zinc-900 border border-zinc-800 rounded-xl p-6 sticky top-24">
-                        <h2 class="text-lg font-bold text-white mb-4 border-b border-zinc-800 pb-4">Ringkasan Pesanan</h2>
-                        
-                        <div class="flow-root mb-6">
-                            <dl class="-my-4 text-sm divide-y divide-zinc-800">
-                                <div class="py-4 flex items-center justify-between">
-                                    <dt class="text-gray-400">Total Item</dt>
-                                    <dd class="font-medium text-white">{totalItems} pcs</dd>
-                                </div>
-                                <div class="py-4 flex items-center justify-between">
-                                    <dt class="text-base font-bold text-white">Total Estimasi</dt>
-                                    <dd class="text-lg font-bold text-red-500">{formatter.format(subtotal)}</dd>
-                                </div>
-                            </dl>
-                        </div>
-
-                        {#if totalItems < 12}
-                            <div class="mb-4 bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm text-center">
-                                Minimal pemesanan adalah 12 pcs. <br/>(Kurang {12 - totalItems} pcs lagi)
+                    <div class="mt-8 lg:mt-0 lg:col-span-4 lg:sticky lg:top-24">
+                        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mb-24 lg:mb-0">
+                            <h2 class="text-lg font-bold text-white mb-4 border-b border-zinc-800 pb-4">Ringkasan Pesanan</h2>
+                            
+                            <div class="flow-root mb-6">
+                                <dl class="-my-4 text-sm divide-y divide-zinc-800">
+                                    <div class="py-4 flex items-center justify-between">
+                                        <dt class="text-gray-400">Total Item</dt>
+                                        <dd class="font-medium text-white">{totalItems} pcs</dd>
+                                    </div>
+                                    <div class="py-4 flex items-center justify-between">
+                                        <dt class="text-base font-bold text-white">Total Estimasi</dt>
+                                        <dd class="text-lg font-bold text-red-500">{formatter.format(subtotal)}</dd>
+                                    </div>
+                                </dl>
                             </div>
-                        {/if}
 
-                        <button
-                            type="button"
-                            onclick={handleCheckout}
-                            disabled={isCheckingOut || totalItems < 12}
-                            class="w-full bg-green-600 hover:bg-green-700 text-white px-6 py-4 rounded-xl font-bold transition-all transform hover:-translate-y-1 hover:shadow-lg hover:shadow-green-900/30 text-center flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-none"
-                        >
-                            {#if isCheckingOut}
-                                <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                </svg>
-                                Memproses...
-                            {:else}
-                                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
-                                    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
-                                </svg>
-                                Checkout via WhatsApp
+                            {#if totalItems < 12}
+                                <div class="mb-4 bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm text-center">
+                                    Minimal pemesanan adalah 12 pcs. <br/>(Kurang {12 - totalItems} pcs lagi)
+                                </div>
                             {/if}
-                        </button>
-                        <p class="text-xs text-gray-500 mt-4 text-center">Checkout akan diarahkan ke WhatsApp Customer Service kami untuk konfirmasi lebih lanjut.</p>
+
+                            <!-- Sticky Action Bar for Mobile -->
+                            <div class="fixed bottom-0 left-0 right-0 p-4 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800 z-50 lg:relative lg:border-t-0 lg:bg-transparent lg:p-0 lg:flex-row shadow-[0_-4px_20px_rgba(0,0,0,0.5)] lg:shadow-none">
+                                <div class="flex items-center justify-between lg:hidden mb-3 px-2">
+                                    <span class="text-gray-400 text-sm font-medium">Total:</span>
+                                    <span class="text-white font-bold text-lg">{formatter.format(subtotal)}</span>
+                                </div>
+                                <button
+                                    type="button"
+                                    onclick={handleCheckout}
+                                    disabled={isCheckingOut || totalItems < 12}
+                                    class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 lg:px-6 lg:py-4 rounded-xl font-bold transition-all transform lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:shadow-green-900/30 text-center flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-none"
+                                >
+                                    {#if isCheckingOut}
+                                        <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                        </svg>
+                                        Memproses...
+                                    {:else}
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="currentColor" viewBox="0 0 24 24">
+                                            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/>
+                                        </svg>
+                                        <span class="hidden lg:inline">Checkout via WhatsApp</span>
+                                        <span class="lg:hidden">Checkout</span>
+                                    {/if}
+                                </button>
+                                <p class="text-xs text-gray-500 mt-2 lg:mt-4 text-center">Checkout akan diarahkan ke CS kami.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             {/if}

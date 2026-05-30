@@ -2,12 +2,23 @@
     import { authClient } from '$lib/auth-client';
     import { goto } from '$app/navigation';
     import { resolve } from '$app/paths';
+    import { page } from '$app/stores';
     import { toast } from '$lib/stores/toast';
 
     let email = $state('');
     let password = $state('');
     let errorMessage = $state('');
     let isLoading = $state(false);
+
+    $effect(() => {
+        if ($page.url.searchParams.get('success') === 'password-reset') {
+            toast.add('Password berhasil diubah! Silakan masuk dengan password baru.', 'success');
+            // Clean up the URL to prevent showing the toast again on refresh
+            const url = new URL(window.location.href);
+            url.searchParams.delete('success');
+            window.history.replaceState(history.state, '', url.href);
+        }
+    });
 
     const handleEmailLogin = async (event: Event) => {
         event.preventDefault(); 

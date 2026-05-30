@@ -34,8 +34,20 @@
             errorMessage = error.message || 'Gagal mendaftar, silakan coba lagi.';
             toast.add(errorMessage, 'error');
         } else if (data) {
-            toast.add('Pendaftaran berhasil! Silakan masuk.', 'success');
-            await goto('/login');
+            // Send OTP for email verification
+            const { error: otpError } = await authClient.emailOtp.sendVerificationOtp({
+                email,
+                type: 'email-verification'
+            });
+
+            if (otpError) {
+                errorMessage = otpError.message || 'Berhasil mendaftar, namun gagal mengirim OTP verifikasi.';
+                toast.add(errorMessage, 'error');
+                await goto('/login');
+            } else {
+                toast.add('Pendaftaran berhasil! Silakan periksa email Anda untuk verifikasi.', 'success');
+                await goto(`/verify-email?email=${encodeURIComponent(email)}`);
+            }
         }
     };
 </script>

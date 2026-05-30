@@ -28,16 +28,16 @@
             type="button" 
             onclick={decrement}
             disabled={quantity <= min}
-            class="px-4 py-2 text-gray-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-4 py-3 text-gray-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
             -
         </button>
-        <span class="px-4 py-2 text-white font-medium min-w-[3rem] text-center">{quantity}</span>
+        <span class="px-4 py-3 text-white font-medium min-w-[3rem] text-center">{quantity}</span>
         <button 
             type="button" 
             onclick={increment}
             disabled={quantity >= max}
-            class="px-4 py-2 text-gray-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-4 py-3 text-gray-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
             +
         </button>

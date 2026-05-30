@@ -13,7 +13,7 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 
             where: {
 
-                id: params.id
+                id: Number(params.id)
             },
 
             data: {
@@ -23,9 +23,13 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
                 price: body.price,
                 stock: body.stock,
                 isActive: body.isActive,
-
-                categoryId: body.categoryId
-
+                kainId: Number(body.kainId),
+                images: {
+                    deleteMany: {
+                        id: { notIn: body.keptImageIds || [] }
+                    },
+                    create: (body.newImagesUrls || []).map((url: string) => ({ url }))
+                }
             }
 
         });
@@ -39,7 +43,7 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
 
         console.error(e);
         return json({
-            message: 'Failed fetch products',
+            message: 'Failed update products',
 
         },
             {
@@ -56,7 +60,7 @@ export const DELETE: RequestHandler = async ({ params }) => {
 
     await prisma.product.delete({
         where: {
-            id: params.id
+            id: Number(params.id)
         }
     });
 
