@@ -6,9 +6,14 @@ import { redirect } from '@sveltejs/kit';
 
 export async function handle({ event, resolve }) {
 	if (!building) {
-		const sessionData = await auth.api.getSession({
-			headers: event.request.headers
-		});
+		let sessionData = null;
+		try {
+			sessionData = await auth.api.getSession({
+				headers: event.request.headers
+			});
+		} catch (error) {
+			console.error("[Auth] getSession error:", error);
+		}
 
 		event.locals.user = sessionData?.user ?? null;
 		event.locals.session = sessionData?.session ?? null;

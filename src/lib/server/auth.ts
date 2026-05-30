@@ -22,7 +22,7 @@ const transporter = nodemailer.createTransport({
 export const auth = betterAuth({
 	baseURL: env.BETTER_AUTH_URL || env.ORIGIN || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : (env.VERCEL_URL ? `https://${env.VERCEL_URL}` : "http://localhost:5173")),
 	trustedOrigins: [env.ORIGIN || "http://localhost:5173", "https://asa-universe.vercel.app"],
-	secret: env.BETTER_AUTH_SECRET,
+	secret: env.BETTER_AUTH_SECRET || "fallback_secret_please_change_in_production_to_avoid_this_error_123456",
 	database: prismaAdapter(prisma, { provider : 'postgresql'}),
 	user: {
 		additionalFields: {
