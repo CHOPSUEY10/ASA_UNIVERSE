@@ -14,7 +14,8 @@
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run",
 		"seed": "tsx prisma/seed.ts",
-		"auth:schema": "better-auth generate --config src/lib/server/auth.ts --output src/lib/server/db/auth.schema.ts --yes"
+		"auth:schema": "better-auth generate --config src/lib/server/auth.ts --output src/lib/server/db/auth.schema.ts --yes",
+		"postinstall": "prisma generate"
 	},
 	"devDependencies": {
 		"@better-auth/cli": "~1.4.21",
