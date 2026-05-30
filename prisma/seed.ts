@@ -1,9 +1,7 @@
-
 import 'dotenv/config';
 
 import { PrismaClient } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
-
 
 declare const process: any;
 
@@ -19,7 +17,7 @@ async function main() {
 	console.log('🧹 Menghapus data lama...');
 
 	// =====================================================
-	// DELETE DATA (URUT BERDASARKAN RELATION)
+	// DELETE DATA (urut berdasarkan relasi, child dulu)
 	// =====================================================
 
 	await prisma.orderItem.deleteMany();
@@ -27,10 +25,13 @@ async function main() {
 
 	await prisma.productReview.deleteMany();
 	await prisma.productImage.deleteMany();
-	await prisma.productVariant.deleteMany();
-
 	await prisma.product.deleteMany();
-	await prisma.category.deleteMany();
+
+	await prisma.kerah.deleteMany();
+	await prisma.patch.deleteMany();
+	await prisma.kain.deleteMany();
+	await prisma.color.deleteMany();
+	await prisma.size.deleteMany();
 
 	await prisma.visitorLog.deleteMany();
 	await prisma.contactInformation.deleteMany();
@@ -56,36 +57,6 @@ async function main() {
 		}
 	});
 
-	await prisma.user.createMany({
-		data : [
-			{
-				name: 'Budi',
-				email: 'budi12@gmail.com',
-				emailVerified: true,
-				image: 'https://via.placeholder.com/300x300?text=Budi'
-
-			},
-
-			{
-				name: 'Putri',
-				email: 'putri897@gmail.com',
-				emailVerified: true,
-				image: 'https://via.placeholder.com/300x300?text=Putri'
-
-			},
-
-			{
-				name: 'Fanny',
-				email: 'fanny17@gmail.com',
-				emailVerified: true,
-				image: 'https://via.placeholder.com/300x300?text=Fanny'
-
-			},
-		]
-})
-
-
-
 	const customerService = await prisma.user.create({
 		data: {
 			name: 'Customer Service ASA',
@@ -94,6 +65,33 @@ async function main() {
 			image: 'https://via.placeholder.com/300x300?text=CS'
 		}
 	});
+
+	const [budi, putri, fanny] = await Promise.all([
+		prisma.user.create({
+			data: {
+				name: 'Budi',
+				email: 'budi12@gmail.com',
+				emailVerified: true,
+				image: 'https://via.placeholder.com/300x300?text=Budi'
+			}
+		}),
+		prisma.user.create({
+			data: {
+				name: 'Putri',
+				email: 'putri897@gmail.com',
+				emailVerified: true,
+				image: 'https://via.placeholder.com/300x300?text=Putri'
+			}
+		}),
+		prisma.user.create({
+			data: {
+				name: 'Fanny',
+				email: 'fanny17@gmail.com',
+				emailVerified: true,
+				image: 'https://via.placeholder.com/300x300?text=Fanny'
+			}
+		})
+	]);
 
 	// =====================================================
 	// CONTACT INFORMATION
@@ -110,159 +108,138 @@ async function main() {
 	});
 
 	// =====================================================
-	// CATEGORIES
+	// KERAH
 	// =====================================================
 
-	const atasanCategory = await prisma.category.create({
-		data: {
-			name: 'Atasan',
-			slug: 'atasan'
-		}
-	});
-
-	const bawahanCategory = await prisma.category.create({
-		data: {
-			name: 'Bawahan',
-			slug: 'bawahan'
-		}
-	});
-
+	const [kerahBiasa, kerahPolo, kerahTali] = await Promise.all([
+		prisma.kerah.create({ data: { nama: 'kerah biasa', harga: 0 } }),
+		prisma.kerah.create({ data: { nama: 'kerah polo', harga: 10000 } }),
+		prisma.kerah.create({ data: { nama: 'kerah tali', harga: 20000 } })
+	]);
 
 	// =====================================================
-	// PRODUCTS
+	// PATCH
 	// =====================================================
 
-	const jerseyHome = await prisma.product.create({
-		data: {
-			name: 'Jersey Futsal ASA Home',
-			slug: 'jersey-futsal-asa-home',
-			description:
-				'Jersey futsal dry-fit premium dengan bahan ringan dan cepat menyerap keringat.',
-			price: 185000,
-			stock: 50,
-			isFeatured: true,
-			isActive: true,
+	const [patchRubber, patch3dTpu] = await Promise.all([
+		prisma.patch.create({ data: { nama: 'rubber', harga: 20000 } }),
+		prisma.patch.create({ data: { nama: '3d tpu', harga: 20000 } })
+	]);
 
-			categoryId: atasanCategory.id,
+	// =====================================================
+	// KAIN
+	// =====================================================
 
-			variants: {
-				create: [
-					{
-						size: 'M',
-						color: 'Hitam Merah',
-						stock: 20
-					},
-					{
-						size: 'L',
-						color: 'Hitam Merah',
-						stock: 20
-					},
-					{
-						size: 'XL',
-						color: 'Hitam Merah',
-						stock: 10
-					}
-				]
-			},
+	const [kainMilano, kainSido, kainAirwalk, kainRabbit, kainEmboss] = await Promise.all([
+		prisma.kain.create({ data: { nama: 'milano', quality: 'standard' } }),
+		prisma.kain.create({ data: { nama: 'sido', quality: 'standard' } }),
+		prisma.kain.create({ data: { nama: 'airwalk', quality: 'premium' } }),
+		prisma.kain.create({ data: { nama: 'rabbit', quality: 'premium' } }),
+		prisma.kain.create({ data: { nama: 'emboss', quality: 'premium' } }),
+		prisma.kain.create({ data: { nama: 'emboss2', quality: 'premium' } }),
+		prisma.kain.create({ data: { nama: 'emboss3', quality: 'premium' } })
+	]);
 
-			images: {
-				create: [
-					{
-						imageUrl:
-							'https://via.placeholder.com/600x800?text=Jersey+Home',
-						isPrimary: true
-					},
-					{
-						imageUrl:
-							'https://via.placeholder.com/600x800?text=Jersey+Belakang',
-						isPrimary: false
-					}
-				]
-			}
-		}
-	});
+	// =====================================================
+	// COLOR
+	// =====================================================
 
-	const kaos = await prisma.product.create({
-		data: {
-			name: 'Kaos Sport Training Hitam',
-			slug: 'kaos-sport-training-hitam',
-			description: 'Kaos sport training berbahan dry-fit breathable untuk olahraga.',
-			price: 95000,
-			stock: 100,
-			isFeatured: true,
-			isActive: true,
+	const [colorHitam, colorPutih, colorNavy, colorMerah, colorAbu] = await Promise.all([
+		prisma.color.create({ data: { name: 'Hitam' } }),
+		prisma.color.create({ data: { name: 'Putih' } }),
+		prisma.color.create({ data: { name: 'Navy' } }),
+		prisma.color.create({ data: { name: 'Merah' } }),
+		prisma.color.create({ data: { name: 'Abu-abu' } })
+	]);
 
-			categoryId: atasanCategory.id,
+	// =====================================================
+	// SIZE
+	// =====================================================
 
-			variants: {
-				create: [
-					{
-						size: 'M',
-						color: 'Hitam',
-						stock: 50
-					},
-					{
-						size: 'L',
-						color: 'Hitam',
-						stock: 50
-					}
-				]
-			},
+	const [sizeS, sizeM, sizeL, sizeXL] = await Promise.all([
+		prisma.size.create({ data: { name: 'XS', width: 44, height: 67 } }),
+		prisma.size.create({ data: { name: 'S',  width: 46, height: 69 } }),
+		prisma.size.create({ data: { name: 'M',  width: 48, height: 71 } }),
+		prisma.size.create({ data: { name: 'L',  width: 50, height: 73 } }),
+		prisma.size.create({ data: { name: 'XL', width: 52, height: 75 } }),
+		prisma.size.create({ data: { name: 'XXL', width: 56, height: 78 } }),
+		prisma.size.create({ data: { name: '3XL', width: 60, height: 80 } }),
+		prisma.size.create({ data: { name: '4XL', width: 63, height: 82 } })
+	]);
 
-			images: {
-				create: [
-					{
-						imageUrl:
-							'https://via.placeholder.com/600x800?text=Kaos+Sport',
-						isPrimary: true
-					}
-				]
-			}
-		}
-	});
+	// =====================================================
+	// PRODUCTS (kainId wajib — relasi ke Kain)
+	// =====================================================
 
-	const celanaTraining = await prisma.product.create({
-		data: {
-			name: 'Celana Training Sport',
-			slug: 'celana-training-sport',
-			description: 'Celana training olahraga fleksibel dan nyaman dipakai aktivitas sport.',
-			price: 145000,
-			stock: 35,
-			isFeatured: false,
-			isActive: true,
+	const [prodAsaStandart, prodAsaPremium, prodBajuStandart, prodBajuPremium, prodKaosPolo] =
+		await Promise.all([
+			prisma.product.create({
+				data: {
+					name: 'asa standart',
+					slug: 'asa-standart',
+					description: 'bahan kain standard',
+					price: 160000,
+					stock: 100,
+					isFeatured: true,
+					kainId: kainMilano.id
+				}
+			}),
+			prisma.product.create({
+				data: {
+					name: 'asa premium',
+					slug: 'asa-premium',
+					description: 'bahan kain premium',
+					price: 200000,
+					stock: 100,
+					isFeatured: true,
+					kainId: kainAirwalk.id
+				}
+			}),
+			prisma.product.create({
+				data: {
+					name: 'baju standart',
+					slug: 'baju-standart',
+					description: 'bahan kain standard',
+					price: 130000,
+					stock: 100,
+					kainId: kainSido.id
+				}
+			}),
+			prisma.product.create({
+				data: {
+					name: 'baju premium',
+					slug: 'baju-premium',
+					description: 'bahan kain premium',
+					price: 140000,
+					stock: 100,
+					kainId: kainRabbit.id
+				}
+			}),
+			prisma.product.create({
+				data: {
+					name: 'kaos polo',
+					slug: 'kaos-polo',
+					description: 'bordir depan belakang',
+					price: 110000,
+					stock: 100,
+					kainId: kainMilano.id
+				}
+			})
+		]);
 
-			categoryId: bawahanCategory.id,
+	// =====================================================
+	// PRODUCT IMAGES
+	// =====================================================
 
-			variants: {
-				create: [
-					{
-						size: '30',
-						color: 'Hitam',
-						stock: 15
-					},
-					{
-						size: '32',
-						color: 'Hitam',
-						stock: 10
-					},
-					{
-						size: '34',
-						color: 'Hitam',
-						stock: 10
-					}
-				]
-			},
-
-			images: {
-				create: [
-					{
-						imageUrl:
-							'https://via.placeholder.com/600x800?text=Celana+Training',
-						isPrimary: true
-					}
-				]
-			}
-		}
+	await prisma.productImage.createMany({
+		data: [
+			{ productId: prodAsaStandart.id, url: 'https://via.placeholder.com/600x600?text=ASA+Standart+1' },
+			{ productId: prodAsaStandart.id, url: 'https://via.placeholder.com/600x600?text=ASA+Standart+2' },
+			{ productId: prodAsaPremium.id,  url: 'https://via.placeholder.com/600x600?text=ASA+Premium+1' },
+			{ productId: prodBajuStandart.id, url: 'https://via.placeholder.com/600x600?text=Baju+Standart+1' },
+			{ productId: prodBajuPremium.id,  url: 'https://via.placeholder.com/600x600?text=Baju+Premium+1' },
+			{ productId: prodKaosPolo.id,     url: 'https://via.placeholder.com/600x600?text=Kaos+Polo+1' }
+		]
 	});
 
 	// =====================================================
@@ -272,55 +249,134 @@ async function main() {
 	await prisma.productReview.createMany({
 		data: [
 			{
-				productId: jerseyHome.id,
-				customerName: 'Fadli',
+				productId: prodAsaStandart.id,
+				userId: budi.id,
 				rating: 5,
-				comment: 'Bahannya bagus dan nyaman dipakai.'
+				comment: 'Kualitas bagus, jahitan rapi!'
 			},
 			{
-				productId: kaos.id,
-				customerName: 'Andi',
+				productId: prodAsaStandart.id,
+				userId: putri.id,
 				rating: 4,
-				comment: 'Oversize-nya pas banget.'
+				comment: 'Bahan nyaman, pengiriman cepat.'
 			},
 			{
-				productId: celanaTraining.id,
-				customerName: 'Rizky',
+				productId: prodAsaPremium.id,
+				userId: fanny.id,
 				rating: 5,
-				comment: 'Bahannya tebal dan jahitannya rapi.'
+				comment: 'Premium banget, worth it!'
+			},
+			{
+				productId: prodKaosPolo.id,
+				userId: budi.id,
+				rating: 4,
+				comment: 'Cocok untuk seragam kantor.'
 			}
 		]
 	});
 
 	// =====================================================
-	// ORDERS
+	// ORDERS + ORDER ITEMS
 	// =====================================================
 
-	const order = await prisma.order.create({
+	// Order 1 — Budi (CONFIRMED)
+	const order1 = await prisma.order.create({
 		data: {
-			customerName: 'Budi',
-			userId : 'cmpl41duc0001d8tuid08479y',
-			email : 'budisetiawan@gmail.com',
-			totalPrice: 245000,
+			userId: budi.id,
+			customerName: budi.name,
+			email: budi.email,
 			status: 'CONFIRMED',
+			totalPrice: 0, // dihitung setelah items dibuat
+			items: {
+				create: [
+					{
+						productId: prodAsaStandart.id,
+						kerahId: kerahBiasa.id,
+						patchId: patchRubber.id,
+						sizeId: sizeM.id,
+						colorId: colorHitam.id,
+						quantity: 1,
+						// price = product(160000) + kerah(0) + patch(20000)
+						price: 180000
+					},
+					{
+						productId: prodKaosPolo.id,
+						kerahId: kerahPolo.id,
+						patchId: patch3dTpu.id,
+						sizeId: sizeL.id,
+						colorId: colorNavy.id,
+						quantity: 1,
+						// price = product(110000) + kerah(10000) + patch(20000)
+						price: 140000
+					}
+				]
+			}
 		}
 	});
 
-	await prisma.orderItem.createMany({
-		data: [
-			{
-				orderId: order.id,
-				productId: jerseyHome.id,
-				quantity: 1,
-				price: 150000
-			},
-			{
-				orderId: order.id,
-				productId: kaos.id,
-				quantity: 1,
-				price: 95000
+	await prisma.order.update({
+		where: { id: order1.id },
+		data: { totalPrice: 180000 + 140000 }
+	});
+
+	// Order 2 — Putri (PENDING)
+	const order2 = await prisma.order.create({
+		data: {
+			userId: putri.id,
+			customerName: putri.name,
+			email: putri.email,
+			status: 'PENDING',
+			totalPrice: 0,
+			items: {
+				create: [
+					{
+						productId: prodAsaPremium.id,
+						kerahId: kerahTali.id,
+						patchId: patchRubber.id,
+						sizeId: sizeS.id,
+						colorId: colorPutih.id,
+						quantity: 2,
+						// price = product(200000) + kerah(20000) + patch(20000)
+						price: 240000
+					}
+				]
 			}
-		]
+		}
+	});
+
+	await prisma.order.update({
+		where: { id: order2.id },
+		data: { totalPrice: 240000 * 2 }
+	});
+
+	// Order 3 — Fanny (CANCELLED)
+	const order3 = await prisma.order.create({
+		data: {
+			userId: fanny.id,
+			customerName: fanny.name,
+			email: fanny.email,
+			status: 'CANCELLED',
+			totalPrice: 0,
+			items: {
+				create: [
+					{
+						productId: prodBajuPremium.id,
+						kerahId: kerahBiasa.id,
+						patchId: patch3dTpu.id,
+						sizeId: sizeXL.id,
+						colorId: colorAbu.id,
+						quantity: 1,
+						// price = product(140000) + kerah(0) + patch(20000)
+						price: 160000
+					}
+				]
+			}
+		}
+	});
+
+	await prisma.order.update({
+		where: { id: order3.id },
+		data: { totalPrice: 160000 }
 	});
 
 	// =====================================================
@@ -329,29 +385,16 @@ async function main() {
 
 	await prisma.visitorLog.createMany({
 		data: [
-			{
-				ipAddress: '127.0.0.1',
-				userAgent: 'Chrome',
-				path: '/'
-			},
-			{
-				ipAddress: '127.0.0.1',
-				userAgent: 'Chrome',
-				path: '/products'
-			},
-			{
-				ipAddress: '127.0.0.1',
-				userAgent: 'Mobile Safari',
-				path: '/products/kaos-sport-training-hitam'
-			}
+			{ ipAddress: '127.0.0.1', userAgent: 'Chrome', path: '/' },
+			{ ipAddress: '127.0.0.1', userAgent: 'Chrome', path: '/products' },
+			{ ipAddress: '127.0.0.1', userAgent: 'Mobile Safari', path: '/products/asa-standart' },
+			{ ipAddress: '192.168.1.10', userAgent: 'Firefox', path: '/products/asa-premium' },
+			{ ipAddress: '192.168.1.11', userAgent: 'Mobile Safari', path: '/products/kaos-polo' }
 		]
 	});
 
 	console.log('✅ Seeding berhasil!');
-	console.log({
-		admin,
-		customerService
-	});
+	console.log({ admin, customerService, budi, putri, fanny });
 }
 
 main()
@@ -363,4 +406,3 @@ main()
 	.finally(async () => {
 		await prisma.$disconnect();
 	});
-

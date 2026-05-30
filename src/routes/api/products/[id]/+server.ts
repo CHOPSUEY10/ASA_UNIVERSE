@@ -1,64 +1,67 @@
-import {json} from '@sveltejs/kit';
-import {prisma} from '$lib/server/prisma';
+import { json } from '@sveltejs/kit';
+import { prisma } from '$lib/server/prisma';
+import type { RequestHandler } from '@sveltejs/kit';
 
-export async function PATCH({ params, request}){
 
-    try{
+
+export const PATCH: RequestHandler = async ({ params, request }) => {
+
+    try {
         const body = await request.json();
 
         const product = await prisma.product.update({
 
-            where : {
+            where: {
 
-                id : params.id
+                id: params.id
             },
 
-            data : {
+            data: {
 
-                name : body.name, 
-                slug: body.slug, 
-                price : body.price,
-                stock : body.stock,
-                isfeatured : body.isFeatured,
-                isActive : body.isActive,
+                name: body.name,
+                slug: body.slug,
+                price: body.price,
+                stock: body.stock,
+                isActive: body.isActive,
 
-                categoryId : body.categoryId
+                categoryId: body.categoryId
 
             }
 
         });
 
         return json({
-            message : "Product berhasil diupdate",
-            data : product
+            message: "Product berhasil diupdate",
+            data: product
         })
 
-    }catch(e){
+    } catch (e) {
 
         console.error(e);
         return json({
-            message : 'Failed fetch products',
-            
-            },
+            message: 'Failed fetch products',
+
+        },
             {
-                status : 500
+                status: 500
             }
-        )}
+        )
+    }
 
 
 }
 
 
-export async function DELETE({ params }){
+export const DELETE: RequestHandler = async ({ params }) => {
 
     await prisma.product.delete({
-        where : {
-            id : params.id
+        where: {
+            id: params.id
         }
     });
 
     return json({
-        message : 'product berhasil dihapus'
+        message: 'product berhasil dihapus'
     })
 
 }

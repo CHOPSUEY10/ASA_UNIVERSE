@@ -1,30 +1,31 @@
-import {json} from '@sveltejs/kit';
-import {prisma} from '$lib/server/prisma';
+import { json } from '@sveltejs/kit';
+import { prisma } from '$lib/server/prisma';
+import type { RequestHandler } from '@sveltejs/kit';
 
 
-export async function GET() {
+export const GET: RequestHandler = async () => {
 
-    try { 
+    try {
         const products = await prisma.product.findMany({
 
-            orderBy : {
-                id : "asc"
+            orderBy: {
+                id: "asc"
             }
 
         })
 
         return json(products);
-    }catch(error){
+    } catch (error) {
 
         console.error(error);
         return json({
-            message : 'Failed fetch products',
-            
+            message: 'Failed fetch products',
+
         },
-        {
-            status : 500
-        }
-    )
+            {
+                status: 500
+            }
+        )
 
     }
 
@@ -34,43 +35,43 @@ export async function GET() {
 }
 
 
-export async function POST ({request}) {
+export const POST: RequestHandler = async ({ request }) => {
 
-    try{
+    try {
         const body = await request.json();
         const product = await prisma.product.create({
-            data : { 
-                name : body.name, 
-                slug : body.slug,
-                description : body.description, 
-                price : body.price, 
-                stock : body.stock,
-                isFeatured : body.isfeatured ?? false,
-                isActive : true,
-                categoryId : body.categoryId
+            data: {
+                name: body.name,
+                slug: body.slug,
+                description: body.description,
+                price: body.price,
+                stock: body.stock,
+                isFeatured: body.isfeatured ?? false,
+                isActive: true,
+                categoryId: body.categoryId
             }
         })
 
         return json(
             {
-                message : "Product berhasil dibuat",
-                data : product 
+                message: "Product berhasil dibuat",
+                data: product
             },
             {
-                status : 201
+                status: 201
             }
 
         );
 
-    }catch(error){
+    } catch (error) {
         console.error(error);
         return json({
-            message : 'Failed create products',
-            
+            message: 'Failed create products',
+
         },
-        {
-            status : 500
-        })
+            {
+                status: 500
+            })
     }
 }
 
