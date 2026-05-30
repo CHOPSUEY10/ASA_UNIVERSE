@@ -44,7 +44,7 @@
         <div class="bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl p-6 w-full max-w-2xl my-8">
             <div class="flex justify-between items-center mb-6">
                 <h3 class="text-xl font-bold text-white">{title}</h3>
-                <button onclick={onClose} class="text-gray-400 hover:text-white transition-colors">
+                <button onclick={onClose} class="text-gray-400 hover:text-white transition-colors" aria-label="Tutup">
                     <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
                     </svg>

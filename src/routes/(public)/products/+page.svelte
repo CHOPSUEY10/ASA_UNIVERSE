@@ -8,8 +8,8 @@
 
     let { data }: { data: import('./$types').PageData } = $props();
 
-    let searchValue = $page.url.searchParams.get('q') || '';
-    let selectedCategory = $page.url.searchParams.get('category') ? Number($page.url.searchParams.get('category')) : null;
+    let searchValue = $state($page.url.searchParams.get('q') || '');
+    let selectedCategory = $state($page.url.searchParams.get('category') ? Number($page.url.searchParams.get('category')) : null);
 
     function updateParams(updates: Record<string, string | null>) {
         const url = new URL($page.url);

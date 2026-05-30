@@ -57,7 +57,7 @@
 
 <div class="space-y-4">
     <div class="flex items-center justify-between">
-        <label class="block text-sm font-medium text-gray-300">Gambar Produk</label>
+        <span class="block text-sm font-medium text-gray-300">Gambar Produk</span>
         <button 
             type="button" 
             onclick={() => fileInput.click()} 
@@ -87,7 +87,7 @@
         <!-- Existing Images -->
         {#each keptImages as img (img.id)}
             <div class="relative group aspect-square rounded-lg overflow-hidden bg-zinc-950 border border-zinc-800">
-                <img src={img.url} alt="Product Image" class="w-full h-full object-cover" />
+                <img src={img.url} alt="Product" class="w-full h-full object-cover" />
                 <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center space-x-2">
                     <button 
                         type="button" 

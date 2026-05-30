@@ -10,12 +10,13 @@
 
     let { data }: { data: import('./$types').PageData } = $props();
 
-    const { product, variants } = data;
+    let product = $derived(data.product);
+    let variants = $derived(data.variants);
 
-    let selectedColor = $state<number | null>(variants.color[0]?.id || null);
-    let selectedKerah = $state<number | null>(variants.kerah[0]?.id || null);
-    let selectedPatch = $state<number | null>(variants.patch[0]?.id || null);
-    let selectedSize = $state<number | null>(variants.size[0]?.id || null);
+    let selectedColor = $state<number | null>(data.variants.color[0]?.id || null);
+    let selectedKerah = $state<number | null>(data.variants.kerah[0]?.id || null);
+    let selectedPatch = $state<number | null>(data.variants.patch[0]?.id || null);
+    let selectedSize = $state<number | null>(data.variants.size[0]?.id || null);
     let quantity = $state(1);
 
     const session = authClient.useSession();

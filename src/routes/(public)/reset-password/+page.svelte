@@ -7,7 +7,8 @@
 
     let { data, form } = $props<{ data: PageData, form: ActionData }>();
     
-    let email = $state(data.email);
+    let initialEmail = data.email;
+    let email = $state(initialEmail);
     let otp = $state('');
     let newPassword = $state('');
     let confirmPassword = $state('');

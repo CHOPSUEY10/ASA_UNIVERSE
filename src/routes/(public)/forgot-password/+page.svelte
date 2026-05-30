@@ -6,7 +6,8 @@
 
     let { form } = $props<{ form: ActionData }>();
     
-    let email = $state(form?.email ?? '');
+    let initialEmail = form?.email ?? '';
+    let email = $state(initialEmail);
     let isLoading = $state(false);
 
     let cooldownRemaining = $state(0);

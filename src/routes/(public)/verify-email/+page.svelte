@@ -7,7 +7,8 @@
 
     let { data } = $props<{ data: PageData }>();
     
-    let email = $state(data.email);
+    let initialEmail = data.email;
+    let email = $state(initialEmail);
     let otp = $state('');
     let isLoading = $state(false);
     let errorMessage = $state('');

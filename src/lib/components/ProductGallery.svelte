@@ -1,7 +1,8 @@
 <script lang="ts">
     let { images = [] }: { images?: { id: number; url: string; isPrimary?: boolean }[] } = $props();
     
-    let activeImage = (images.find(img => img.isPrimary) || images[0])?.url || '';
+    let initialImage = (images.find(img => img.isPrimary) || images[0])?.url || '';
+    let activeImage = $state(initialImage);
 
     function setActive(url: string) {
         activeImage = url;
