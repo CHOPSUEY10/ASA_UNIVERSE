@@ -42,17 +42,11 @@ export const load: PageServerLoad = async ({ url }) => {
     };
 };
 
-import fs from 'node:fs';
-import path from 'node:path';
+import { supabaseAdmin } from '$lib/server/supabase';
 
 async function processNewImages(formData: FormData) {
     const newFiles = formData.getAll('newImages');
     const urls: string[] = [];
-    const uploadDir = path.resolve('static/uploads');
-    
-    if (!fs.existsSync(uploadDir)) {
-        fs.mkdirSync(uploadDir, { recursive: true });
-    }
 
     const allowedTypes = ['image/jpeg', 'image/png', 'image/webp'];
 
@@ -73,9 +67,26 @@ async function processNewImages(formData: FormData) {
             else if (file.type === 'image/webp') ext = '.webp';
 
             const filename = `${crypto.randomUUID()}${ext}`;
-            const filePath = path.join(uploadDir, filename);
-            await fs.promises.writeFile(filePath, buffer);
-            urls.push(`/uploads/${filename}`);
+            
+            // Upload ke Supabase Storage
+            const { error } = await supabaseAdmin.storage
+                .from('products')
+                .upload(filename, buffer, {
+                    contentType: file.type,
+                    upsert: false
+                });
+
+            if (error) {
+                console.error("Supabase Upload Error:", error);
+                throw new Error(`Gagal mengunggah gambar: ${error.message}`);
+            }
+
+            // Dapatkan Public URL
+            const { data: { publicUrl } } = supabaseAdmin.storage
+                .from('products')
+                .getPublicUrl(filename);
+
+            urls.push(publicUrl);
         }
     }
     return urls;
