@@ -1,5 +1,15 @@
 <script lang="ts">
-    let { data }: { data: import('./$types').PageData } = $props();
+    import { enhance } from '$app/forms';
+    import { toast } from '$lib/stores/toast';
+    let { data, form }: { data: import('./$types').PageData, form: import('./$types').ActionData } = $props();
+
+    $effect(() => {
+        if (form?.error) {
+            toast.add(form.error, 'error');
+        } else if (form?.success) {
+            toast.add(form.message || 'Desain dihapus.', 'success');
+        }
+    });
 </script>
 
 <svelte:head>
@@ -39,13 +49,47 @@
                         <img src={item.designFileUrl} alt="Desain {item.product.name}" class="max-w-full max-h-full object-contain group-hover/card:scale-105 transition-transform duration-500" />
                         
                         <!-- Overlay -->
-                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover/card:opacity-100 transition-opacity flex items-center justify-center backdrop-blur-sm">
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover/card:opacity-100 transition-opacity flex flex-col items-center justify-center gap-3 backdrop-blur-sm">
                             <a href={item.designFileUrl} target="_blank" rel="noopener noreferrer" class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium shadow-lg transform translate-y-4 group-hover/card:translate-y-0 transition-all flex items-center">
                                 <svg class="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
                                 </svg>
                                 Buka Penuh
                             </a>
+                            <div class="flex gap-2">
+                                <form method="POST" action="?/edit" enctype="multipart/form-data" use:enhance={() => {
+                                    toast.add('Mengunggah desain baru...', 'success');
+                                    return async ({ update }) => {
+                                        await update();
+                                    };
+                                }}>
+                                    <input type="hidden" name="itemId" value={item.id} />
+                                    <input type="hidden" name="oldDesignUrl" value={item.designFileUrl} />
+                                    <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg font-medium shadow-lg transform translate-y-4 group-hover/card:translate-y-0 transition-all flex items-center text-sm">
+                                        <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                        </svg>
+                                        Edit
+                                        <input type="file" name="newDesign" class="hidden" accept="image/*,.pdf" onchange="this.form.submit()" />
+                                    </label>
+                                </form>
+                                <form method="POST" action="?/delete" use:enhance={() => {
+                                    return async ({ update }) => {
+                                        await update();
+                                    };
+                                }}>
+                                    <input type="hidden" name="itemId" value={item.id} />
+                                    <input type="hidden" name="designFileUrl" value={item.designFileUrl} />
+                                    <button type="submit" class="bg-zinc-800 hover:bg-zinc-700 text-white border border-zinc-600 px-3 py-2 rounded-lg font-medium shadow-lg transform translate-y-4 group-hover/card:translate-y-0 transition-all flex items-center text-sm" onclick={(e) => {
+                                        if(!confirm('Yakin ingin menghapus desain ini?')) e.preventDefault();
+                                    }}>
+                                        <svg class="w-4 h-4 mr-1 text-red-500" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                        Hapus
+                                    </button>
+                                </form>
+                            </div>
                         </div>
                     {:else}
                         <span class="text-zinc-600">Tidak ada gambar</span>
