@@ -33,7 +33,8 @@ export const load: PageServerLoad = async ({ params }) => {
         })), 
         patch: patches.map(p => ({ 
             id: p.id, 
-            name: p.harga > 0 ? `${p.nama} (+Rp ${p.harga.toLocaleString('id-ID')})` : p.nama 
+            nama: p.nama,
+            harga: p.harga
         })), 
         size: sizes
     };

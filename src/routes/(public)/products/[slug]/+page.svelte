@@ -2,6 +2,7 @@
     import { cart } from '$lib/stores/cart';
     import ProductGallery from '$lib/components/ProductGallery.svelte';
     import VariantSelector from '$lib/components/VariantSelector.svelte';
+    import PatchSelector from '$lib/components/PatchSelector.svelte';
     import QuantitySelector from '$lib/components/QuantitySelector.svelte';
     import { authClient } from '$lib/auth-client';
     import { goto } from '$app/navigation';
@@ -141,9 +142,8 @@
                         onSelect={(id) => selectedKerah = id as number} 
                     />
 
-                    <VariantSelector 
-                        label="Jenis Patch Logo" 
-                        options={variants.patch} 
+                    <PatchSelector 
+                        patches={variants.patch} 
                         selectedId={selectedPatch} 
                         onSelect={(id) => selectedPatch = id as number} 
                     />
