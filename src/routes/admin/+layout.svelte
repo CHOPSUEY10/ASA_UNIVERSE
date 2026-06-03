@@ -43,6 +43,18 @@
                 </svg>
                 Produk
             </a>
+            <a href="/admin/orders" class={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${$page.url.pathname.startsWith('/admin/orders') ? 'bg-red-600 text-white' : 'text-gray-400 hover:bg-zinc-800 hover:text-white'}`}>
+                <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                </svg>
+                Pesanan
+            </a>
+            <a href="/admin/desain-customer" class={`flex items-center px-4 py-3 text-sm font-medium rounded-lg transition-colors ${$page.url.pathname.startsWith('/admin/desain-customer') ? 'bg-red-600 text-white' : 'text-gray-400 hover:bg-zinc-800 hover:text-white'}`}>
+                <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                </svg>
+                Desain Customer
+            </a>
             <!-- Other menus would go here, omitting for MVP if not required immediately -->
             <a href="/" class="flex items-center px-4 py-3 text-sm font-medium rounded-lg text-gray-400 hover:bg-zinc-800 hover:text-white transition-colors mt-8">
                 <svg class="mr-3 h-5 w-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">

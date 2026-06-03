@@ -21,7 +21,6 @@ export const GET: RequestHandler = async ({ locals }) => {
                         },
                         kerah: true,
                         patch: true,
-                        patch: true,
                         size: true
 
                     }
