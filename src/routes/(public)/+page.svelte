@@ -14,7 +14,7 @@
 <!-- Hero Section -->
 <section class="relative bg-zinc-900 overflow-hidden">
     <!-- Background styling to look cool -->
-    <div class="absolute inset-0 bg-[url('/hero/hero_section.jpg')] opacity-20"></div>
+    <div class="absolute inset-0 bg-[url('/hero/hero_section.jpg')] bg-cover bg-center bg-no-repeat opacity-40 mix-blend-overlay"></div>
     <div class="absolute -top-40 -right-40 w-96 h-96 bg-red-600 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
     <div class="absolute -bottom-40 -left-40 w-96 h-96 bg-red-900 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob animation-delay-2000"></div>
 
