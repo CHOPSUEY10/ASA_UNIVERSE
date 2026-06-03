@@ -3,6 +3,7 @@
     import ProductGallery from '$lib/components/ProductGallery.svelte';
     import VariantSelector from '$lib/components/VariantSelector.svelte';
     import PatchSelector from '$lib/components/PatchSelector.svelte';
+    import KerahSelector from '$lib/components/KerahSelector.svelte';
     import QuantitySelector from '$lib/components/QuantitySelector.svelte';
     import { authClient } from '$lib/auth-client';
     import { goto } from '$app/navigation';
@@ -252,9 +253,8 @@
                         onSelect={(id) => selectedKain = id as number} 
                     />
 
-                    <VariantSelector 
-                        label="Model Kerah" 
-                        options={variants.kerah} 
+                    <KerahSelector 
+                        kerahs={variants.kerah} 
                         selectedId={selectedKerah} 
                         onSelect={(id) => selectedKerah = id as number} 
                     />

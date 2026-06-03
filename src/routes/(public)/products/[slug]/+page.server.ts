@@ -33,10 +33,13 @@ export const load: PageServerLoad = async ({ params }) => {
     const variants = {
         kerah: kerahs.map(k => ({ 
             id: k.id, 
-            name: k.harga > 0 ? `${k.nama} (+Rp ${k.harga.toLocaleString('id-ID')})` : k.nama 
+            name: k.harga > 0 ? `${k.nama} (+Rp ${k.harga.toLocaleString('id-ID')})` : k.nama,
+            nama: k.nama,
+            harga: k.harga
         })), 
         patch: patches.map(p => ({ 
             id: p.id, 
+            name: p.harga > 0 ? `${p.nama} (+Rp ${p.harga.toLocaleString('id-ID')})` : p.nama,
             nama: p.nama,
             harga: p.harga
         })), 
