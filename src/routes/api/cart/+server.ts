@@ -21,7 +21,8 @@ export const GET: RequestHandler = async ({ locals }) => {
                         },
                         kerah: true,
                         patch: true,
-                        size: true
+                        size: true,
+                        kain: true
 
                     }
                 }
@@ -42,9 +43,11 @@ export const GET: RequestHandler = async ({ locals }) => {
                 kerah: item.kerah.nama,
                 patch: item.patch.nama,
                 size: item.size.name,
+                kain: item.kain?.nama || '',
                 kerahId: item.kerahId,
                 patchId: item.patchId,
-                sizeId: item.sizeId
+                sizeId: item.sizeId,
+                kainId: item.kainId
             }
         }));
 
@@ -88,6 +91,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                 kerahId: itemData.variants.kerahId,
                 patchId: itemData.variants.patchId,
                 sizeId: itemData.variants.sizeId,
+                kainId: itemData.variants.kainId,
                 designFileUrl: itemData.variants.designFileUrl
             }
         });
@@ -125,6 +129,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                     kerahId: itemData.variants.kerahId,
                     patchId: itemData.variants.patchId,
                     sizeId: itemData.variants.sizeId,
+                    kainId: itemData.variants.kainId,
                     quantity: itemData.quantity,
                     price: calculatedPricePerItem
                 }

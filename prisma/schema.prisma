@@ -73,6 +73,7 @@ model Kain {
   quality String 
 
   products Product[]
+  orderItems OrderItem[]
 }
 
 model Size {
@@ -176,6 +177,9 @@ model OrderItem {
 
   productId Int
   product   Product @relation(fields: [productId], references: [id])
+
+  kainId Int?
+  kain Kain? @relation(fields: [kainId], references: [id])
 
   kerahId Int
   kerah   Kerah @relation(fields: [kerahId], references: [id])

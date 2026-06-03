@@ -57,6 +57,7 @@
             $cart.forEach((item, index) => {
                 text += `${index + 1}. *${item.name}* (${item.quantity} pcs)\n`;
                 text += `   - Desain: ${item.variants.designFileUrl ? `${window.location.origin}/admin/desain-customer?orderId=${orderId}` : '-'}\n`;
+                text += `   - Kain: ${item.variants.kain}\n`;
                 text += `   - Kerah: ${item.variants.kerah}\n`;
                 text += `   - Patch: ${item.variants.patch}\n`;
                 text += `   - Ukuran: ${item.variants.size}\n`;

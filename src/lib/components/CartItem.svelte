@@ -45,6 +45,7 @@
                     </p>
                 {/if}
                 {#if item.variants.size}<p>Ukuran: {item.variants.size}</p>{/if}
+                {#if item.variants.kain}<p>Kain: {item.variants.kain}</p>{/if}
                 {#if item.variants.kerah}<p>Kerah: {item.variants.kerah}</p>{/if}
                 {#if item.variants.patch}<p>Patch: {item.variants.patch}</p>{/if}
             </div>

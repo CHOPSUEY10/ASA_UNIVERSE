@@ -21,6 +21,7 @@
     let selectedKerah = $state<number | null>(data.variants.kerah[0]?.id || null);
     let selectedPatch = $state<number | null>(data.variants.patch[0]?.id || null);
     let selectedSize = $state<number | null>(data.variants.size[0]?.id || null);
+    let selectedKain = $state<number | null>(data.variants.kain[0]?.id || null);
     let quantity = $state(1);
 
     const session = authClient.useSession();
@@ -81,13 +82,13 @@
             return;
         }
 
-        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch) {
+        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch || !selectedKain) {
             toast.add('Silakan pilih semua varian dan unggah desain Anda', 'error');
             return;
         }
 
         const cartItem = {
-            id: `${product.id}-${designFileUrl}-${selectedKerah}-${selectedPatch}-${selectedSize}`,
+            id: `${product.id}-${designFileUrl}-${selectedKerah}-${selectedPatch}-${selectedSize}-${selectedKain}`,
             productId: product.id,
             name: product.name,
             price: product.price,
@@ -98,9 +99,11 @@
                 kerah: variants.kerah.find(v => v.id === selectedKerah)?.name,
                 patch: variants.patch.find(v => v.id === selectedPatch)?.name,
                 size: variants.size.find(v => v.id === selectedSize)?.name,
+                kain: variants.kain.find(v => v.id === selectedKain)?.name,
                 kerahId: selectedKerah,
                 patchId: selectedPatch,
-                sizeId: selectedSize
+                sizeId: selectedSize,
+                kainId: selectedKain
             }
         };
 
@@ -115,7 +118,7 @@
             return;
         }
 
-        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch) {
+        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch || !selectedKain) {
             toast.add('Silakan pilih semua varian dan unggah desain Anda', 'error');
             return;
         }
@@ -123,6 +126,7 @@
         const phone = config.whatsapp.csNumber;
         const text = `Halo ASA Universe! Saya ingin memesan:\n\n` +
             `*Produk:* ${product.name}\n` +
+            `*Kain:* ${variants.kain.find(v => v.id === selectedKain)?.name}\n` +
             `*Kerah:* ${variants.kerah.find(v => v.id === selectedKerah)?.name}\n` +
             `*Patch:* ${variants.patch.find(v => v.id === selectedPatch)?.name}\n` +
             `*Ukuran:* ${variants.size.find(v => v.id === selectedSize)?.name}\n` +
@@ -240,6 +244,13 @@
                     </div>
 
                     
+                    <VariantSelector 
+                        label="Jenis Kain" 
+                        options={variants.kain} 
+                        selectedId={selectedKain} 
+                        onSelect={(id) => selectedKain = id as number} 
+                    />
+
                     <VariantSelector 
                         label="Model Kerah" 
                         options={variants.kerah} 
