@@ -9,7 +9,8 @@ export const load: PageServerLoad = async () => {
         },
         include: {
             images: {
-                take: 1
+                take: 1,
+                orderBy: { createdAt: 'desc' }
             }
         },
         take: 4,

@@ -8,7 +8,9 @@ export const load: PageServerLoad = async ({ params }) => {
     const product = await prisma.product.findUnique({
         where: { slug },
         include: {
-            images: true,
+            images: {
+                orderBy: { createdAt: 'desc' }
+            },
             // Assuming related data structure for variants if applicable
             // For MVP we can just mock variants or assume standard ones
         }

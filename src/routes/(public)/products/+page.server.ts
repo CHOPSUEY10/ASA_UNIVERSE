@@ -23,7 +23,8 @@ export const load: PageServerLoad = async ({ url }) => {
             where: whereClause,
             include: {
                 images: {
-                    take: 1
+                    take: 1,
+                    orderBy: { createdAt: 'desc' }
                 }
             },
             skip,
