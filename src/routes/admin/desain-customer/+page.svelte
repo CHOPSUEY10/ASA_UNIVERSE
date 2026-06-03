@@ -64,22 +64,22 @@
                                 Buka Penuh
                             </a>
                             <div class="flex gap-2">
-                                <form method="POST" action="?/edit" enctype="multipart/form-data" use:enhance={() => {
-                                    toast.add('Mengunggah desain baru...', 'success');
-                                    return async ({ update }) => {
-                                        await update();
-                                    };
-                                }}>
-                                    <input type="hidden" name="itemId" value={item.id} />
-                                    <input type="hidden" name="oldDesignUrl" value={item.designFileUrl} />
-                                    <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg font-medium shadow-lg transform translate-y-4 group-hover/card:translate-y-0 transition-all flex items-center text-sm">
-                                        <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
-                                        </svg>
-                                        Edit
-                                        <input type="file" name="newDesign" class="hidden" accept="image/*,.pdf" onchange={handleFileChange} />
-                                    </label>
-                                </form>
+                                <label class="cursor-pointer bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg font-medium shadow-lg transform translate-y-4 group-hover/card:translate-y-0 transition-all flex items-center text-sm">
+                                    <svg class="w-4 h-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                                    </svg>
+                                    Edit
+                                    <form method="POST" action="?/edit" enctype="multipart/form-data" use:enhance={() => {
+                                        toast.add('Mengunggah desain baru...', 'info');
+                                        return async ({ update }) => {
+                                            await update();
+                                        };
+                                    }} class="hidden">
+                                        <input type="hidden" name="itemId" value={item.id} />
+                                        <input type="hidden" name="oldDesignUrl" value={item.designFileUrl} />
+                                        <input type="file" name="newDesign" accept="image/*,.pdf" onchange={handleFileChange} />
+                                    </form>
+                                </label>
                                 <form method="POST" action="?/delete" use:enhance={() => {
                                     return async ({ update }) => {
                                         await update();
