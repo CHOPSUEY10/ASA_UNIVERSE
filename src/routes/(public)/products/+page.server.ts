@@ -6,7 +6,6 @@ export const load: PageServerLoad = async ({ url }) => {
     const limit = 12;
     const skip = (page - 1) * limit;
     const search = url.searchParams.get('q') || '';
-    const categoryId = url.searchParams.get('category');
 
     const whereClause: any = {
         isActive: true,
@@ -19,41 +18,26 @@ export const load: PageServerLoad = async ({ url }) => {
         };
     }
 
-    if (categoryId) {
-        whereClause.categoryId = Number(categoryId);
-    }
-
-    const [products, totalItems, categories] = await Promise.all([
+    const [products, totalItems] = await Promise.all([
         prisma.product.findMany({
             where: whereClause,
             include: {
                 images: {
-                    take: 1
+                    take: 1,
+                    orderBy: { createdAt: 'desc' }
                 }
             },
             skip,
             take: limit,
             orderBy: { id: 'desc' }
         }),
-        prisma.product.count({ where: whereClause }),
-        prisma.product.findMany({
-            select: { categoryId: true },
-            distinct: ['categoryId'],
-            where: { categoryId: { not: null } }
-        }).catch(() => [])
+        prisma.product.count({ where: whereClause })
     ]);
 
     const formattedProducts = products.map((p: any) => ({
         ...p,
         image: p.images?.[0]?.url || null
     }));
-
-    const availableCategories = categories
-        .filter((c: any) => c.categoryId !== null)
-        .map((c: any) => ({
-            id: c.categoryId as number,
-            name: `Kategori ${c.categoryId}`
-        }));
 
     return {
         products: formattedProducts,
@@ -62,6 +46,6 @@ export const load: PageServerLoad = async ({ url }) => {
             totalPages: Math.ceil(totalItems / limit),
             totalItems
         },
-        categories: availableCategories
+        categories: []
     };
 };

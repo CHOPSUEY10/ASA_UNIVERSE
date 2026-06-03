@@ -14,10 +14,15 @@
     let product = $derived(data.product);
     let variants = $derived(data.variants);
 
-    let selectedColor = $state<number | null>(data.variants.color[0]?.id || null);
+    let designFile = $state<File | null>(null);
+    let designFileUrl = $state<string | null>(null);
+    let isUploading = $state(false);
+    let uploadFileInput: HTMLInputElement | undefined = $state();
+
     let selectedKerah = $state<number | null>(data.variants.kerah[0]?.id || null);
     let selectedPatch = $state<number | null>(data.variants.patch[0]?.id || null);
     let selectedSize = $state<number | null>(data.variants.size[0]?.id || null);
+    let selectedKain = $state<number | null>(data.variants.kain[0]?.id || null);
     let quantity = $state(1);
 
     const session = authClient.useSession();
@@ -29,6 +34,48 @@
         minimumFractionDigits: 0
     });
 
+    async function handleFileUpload(event: Event) {
+        const target = event.target as HTMLInputElement;
+        if (!target.files || target.files.length === 0) return;
+
+        designFile = target.files[0];
+        isUploading = true;
+
+        const formData = new FormData();
+        formData.append('file', designFile);
+
+        try {
+            const res = await fetch('/api/upload/design', {
+                method: 'POST',
+                body: formData
+            });
+
+            if (res.ok) {
+                const data = await res.json();
+                designFileUrl = data.url;
+                toast.add('Desain berhasil diunggah!', 'success');
+            } else {
+                const errorData = await res.json();
+                toast.add(`Gagal mengunggah: ${errorData.message}`, 'error');
+                designFileUrl = null;
+                designFile = null;
+            }
+        } catch (error) {
+            console.error('Upload error', error);
+            toast.add('Terjadi kesalahan saat mengunggah desain.', 'error');
+            designFileUrl = null;
+            designFile = null;
+        } finally {
+            isUploading = false;
+        }
+    }
+
+    function removeDesign() {
+        designFile = null;
+        designFileUrl = null;
+        if (uploadFileInput) uploadFileInput.value = '';
+    }
+
     async function handleAddToCart() {
         if (!$session.data?.user) {
             toast.add('Silakan login terlebih dahulu untuk menambahkan produk ke keranjang.', 'error');
@@ -36,27 +83,28 @@
             return;
         }
 
-        if (!selectedSize || !selectedColor || !selectedKerah || !selectedPatch) {
-            toast.add('Silakan pilih semua varian (Warna, Kerah, Patch, Ukuran)', 'error');
+        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch || !selectedKain) {
+            toast.add('Silakan pilih semua varian dan unggah desain Anda', 'error');
             return;
         }
 
         const cartItem = {
-            id: `${product.id}-${selectedColor}-${selectedKerah}-${selectedPatch}-${selectedSize}`,
+            id: `${product.id}-${designFileUrl}-${selectedKerah}-${selectedPatch}-${selectedSize}-${selectedKain}`,
             productId: product.id,
             name: product.name,
             price: product.price,
             quantity: quantity,
             image: product.images[0]?.url || '',
             variants: {
-                color: variants.color.find(v => v.id === selectedColor)?.name,
+                designFileUrl: designFileUrl,
                 kerah: variants.kerah.find(v => v.id === selectedKerah)?.name,
                 patch: variants.patch.find(v => v.id === selectedPatch)?.name,
                 size: variants.size.find(v => v.id === selectedSize)?.name,
-                colorId: selectedColor,
+                kain: variants.kain.find(v => v.id === selectedKain)?.name,
                 kerahId: selectedKerah,
                 patchId: selectedPatch,
-                sizeId: selectedSize
+                sizeId: selectedSize,
+                kainId: selectedKain
             }
         };
 
@@ -71,19 +119,20 @@
             return;
         }
 
-        if (!selectedSize || !selectedColor || !selectedKerah || !selectedPatch) {
-            toast.add('Silakan pilih semua varian (Warna, Kerah, Patch, Ukuran)', 'error');
+        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch || !selectedKain) {
+            toast.add('Silakan pilih semua varian dan unggah desain Anda', 'error');
             return;
         }
 
         const phone = config.whatsapp.csNumber;
         const text = `Halo ASA Universe! Saya ingin memesan:\n\n` +
             `*Produk:* ${product.name}\n` +
-            `*Warna:* ${variants.color.find(v => v.id === selectedColor)?.name}\n` +
+            `*Kain:* ${variants.kain.find(v => v.id === selectedKain)?.name}\n` +
             `*Kerah:* ${variants.kerah.find(v => v.id === selectedKerah)?.name}\n` +
             `*Patch:* ${variants.patch.find(v => v.id === selectedPatch)?.name}\n` +
             `*Ukuran:* ${variants.size.find(v => v.id === selectedSize)?.name}\n` +
-            `*Jumlah:* ${quantity} pcs\n\n` +
+            `*Jumlah:* ${quantity} pcs\n` +
+            `*Desain:* ${designFileUrl}\n\n` +
             `Mohon info lebih lanjut untuk proses pembayarannya. Terima kasih!`;
 
         const waUrl = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
@@ -127,14 +176,82 @@
                 </div>
 
                 <div class="space-y-6 bg-zinc-900 border border-zinc-800 p-6 rounded-xl mb-8">
-                    <!-- Variants -->
-                    <VariantSelector 
-                        label="Warna" 
-                        options={variants.color} 
-                        selectedId={selectedColor} 
-                        onSelect={(id) => selectedColor = id as number} 
-                    />
+                    <!-- Design Upload -->
+                    <div class="space-y-3">
+                        <label class="block text-sm font-medium text-gray-300">Unggah Desain Anda <span class="text-red-500">*</span></label>
+                        
+                        {#if designFileUrl}
+                            <div class="flex items-center justify-between p-4 bg-zinc-950 border border-zinc-800 rounded-lg">
+                                <div class="flex items-center space-x-3 overflow-hidden">
+                                    {#if designFile?.type.startsWith('image/')}
+                                        <div class="h-12 w-12 rounded overflow-hidden bg-zinc-900 flex-shrink-0">
+                                            <img src={designFileUrl} alt="Design preview" class="h-full w-full object-cover" />
+                                        </div>
+                                    {:else}
+                                        <div class="h-12 w-12 rounded bg-zinc-900 flex items-center justify-center text-red-500 flex-shrink-0">
+                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21h10a2 2 0 002-2V9.414a1 1 0 00-.293-.707l-5.414-5.414A1 1 0 0012.586 3H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                                            </svg>
+                                        </div>
+                                    {/if}
+                                    <div class="truncate">
+                                        <p class="text-sm font-medium text-white truncate">{designFile?.name || 'design-file'}</p>
+                                        <a href={designFileUrl} target="_blank" class="text-xs text-red-500 hover:text-red-400">Lihat File</a>
+                                    </div>
+                                </div>
+                                <div class="flex space-x-2">
+                                    <button type="button" onclick={() => uploadFileInput?.click()} class="p-2 text-gray-400 hover:text-white transition-colors" title="Ganti File">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                                        </svg>
+                                    </button>
+                                    <button type="button" onclick={removeDesign} class="p-2 text-red-500 hover:text-red-400 transition-colors" title="Hapus File">
+                                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+                                        </svg>
+                                    </button>
+                                </div>
+                            </div>
+                        {:else}
+                            <button 
+                                type="button" 
+                                onclick={() => uploadFileInput?.click()}
+                                disabled={isUploading}
+                                class="w-full border-2 border-dashed border-zinc-700 hover:border-red-500 rounded-lg p-6 flex flex-col items-center justify-center transition-colors bg-zinc-950 disabled:opacity-50 disabled:cursor-not-allowed"
+                            >
+                                {#if isUploading}
+                                    <svg class="animate-spin h-8 w-8 text-red-500 mb-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                    </svg>
+                                    <span class="text-sm font-medium text-white">Mengunggah...</span>
+                                {:else}
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 text-gray-400 mb-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12" />
+                                    </svg>
+                                    <span class="text-sm font-medium text-white mb-1">Klik untuk unggah desain</span>
+                                    <span class="text-xs text-gray-500">Mendukung JPG, PNG, atau PDF (Max 10MB)</span>
+                                {/if}
+                            </button>
+                        {/if}
+                        
+                        <input 
+                            type="file" 
+                            bind:this={uploadFileInput} 
+                            accept=".jpg,.jpeg,.png,.pdf" 
+                            class="hidden" 
+                            onchange={handleFileUpload} 
+                        />
+                    </div>
+
                     
+                    <VariantSelector 
+                        label="Jenis Kain" 
+                        options={variants.kain} 
+                        selectedId={selectedKain} 
+                        onSelect={(id) => selectedKain = id as number} 
+                    />
+
                     <VariantSelector 
                         label="Model Kerah" 
                         options={variants.kerah} 

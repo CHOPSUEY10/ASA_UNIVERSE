@@ -22,7 +22,8 @@ export const GET: RequestHandler = async ({ locals }) => {
                         kerah: true,
                         patch: true,
                         size: true,
-                        color: true
+                        kain: true
+
                     }
                 }
             }
@@ -38,14 +39,15 @@ export const GET: RequestHandler = async ({ locals }) => {
             quantity: item.quantity,
             image: item.product.images[0]?.url || '',
             variants: {
-                color: item.color.name,
+                designFileUrl: item.designFileUrl,
                 kerah: item.kerah.nama,
                 patch: item.patch.nama,
                 size: item.size.name,
-                colorId: item.colorId,
+                kain: item.kain?.nama || '',
                 kerahId: item.kerahId,
                 patchId: item.patchId,
-                sizeId: item.sizeId
+                sizeId: item.sizeId,
+                kainId: item.kainId
             }
         }));
 
@@ -86,10 +88,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
             where: {
                 orderId: order.id,
                 productId: itemData.productId,
-                colorId: itemData.variants.colorId,
                 kerahId: itemData.variants.kerahId,
                 patchId: itemData.variants.patchId,
-                sizeId: itemData.variants.sizeId
+                sizeId: itemData.variants.sizeId,
+                kainId: itemData.variants.kainId,
+                designFileUrl: itemData.variants.designFileUrl
             }
         });
 
@@ -122,10 +125,11 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                 data: {
                     orderId: order.id,
                     productId: itemData.productId,
-                    colorId: itemData.variants.colorId,
+                    designFileUrl: itemData.variants.designFileUrl,
                     kerahId: itemData.variants.kerahId,
                     patchId: itemData.variants.patchId,
                     sizeId: itemData.variants.sizeId,
+                    kainId: itemData.variants.kainId,
                     quantity: itemData.quantity,
                     price: calculatedPricePerItem
                 }

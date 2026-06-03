@@ -8,7 +8,10 @@ export const load: PageServerLoad = async ({ params }) => {
     const product = await prisma.product.findUnique({
         where: { slug },
         include: {
-            images: true,
+            images: {
+                orderBy: { createdAt: 'desc' }
+            },
+            kain: true
             // Assuming related data structure for variants if applicable
             // For MVP we can just mock variants or assume standard ones
         }
@@ -18,15 +21,16 @@ export const load: PageServerLoad = async ({ params }) => {
         throw error(404, 'Product not found');
     }
 
-    const [colors, kerahs, patches, sizes] = await Promise.all([
-        prisma.color.findMany(),
+    const [kerahs, patches, sizes, kains] = await Promise.all([
         prisma.kerah.findMany(),
         prisma.patch.findMany(),
-        prisma.size.findMany()
+        prisma.size.findMany(),
+        prisma.kain.findMany({
+            where: { quality: product.kain.quality }
+        })
     ]);
 
     const variants = {
-        color: colors,
         kerah: kerahs.map(k => ({ 
             id: k.id, 
             name: k.harga > 0 ? `${k.nama} (+Rp ${k.harga.toLocaleString('id-ID')})` : k.nama 
@@ -36,7 +40,11 @@ export const load: PageServerLoad = async ({ params }) => {
             nama: p.nama,
             harga: p.harga
         })), 
-        size: sizes
+        size: sizes,
+        kain: kains.map(k => ({
+            id: k.id,
+            name: k.nama
+        }))
     };
 
     return {

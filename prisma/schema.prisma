@@ -73,12 +73,6 @@ model Kain {
   quality String 
 
   products Product[]
-}
-
-model Color {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-
   orderItems OrderItem[]
 }
 
@@ -184,6 +178,9 @@ model OrderItem {
   productId Int
   product   Product @relation(fields: [productId], references: [id])
 
+  kainId Int?
+  kain Kain? @relation(fields: [kainId], references: [id])
+
   kerahId Int
   kerah   Kerah @relation(fields: [kerahId], references: [id])
 
@@ -193,8 +190,8 @@ model OrderItem {
   sizeId  Int
   size   Size @relation(fields: [sizeId], references: [id])
 
-  colorId Int
-  color   Color @relation(fields: [colorId], references: [id])
+  designFileUrl String?
+
 
   quantity Int
 
