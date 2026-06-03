@@ -7,9 +7,16 @@
         if (form?.error) {
             toast.add(form.error, 'error');
         } else if (form?.success) {
-            toast.add(form.message || 'Desain dihapus.', 'success');
+            toast.add(form.message || 'Desain diperbarui.', 'success');
         }
     });
+
+    function handleFileChange(event: Event) {
+        const input = event.target as HTMLInputElement;
+        if (input.form && input.files && input.files.length > 0) {
+            input.form.requestSubmit();
+        }
+    }
 </script>
 
 <svelte:head>
