@@ -18,6 +18,9 @@ export interface CartItem {
         kerahId?: number;
         patchId?: number;
         sizeId?: number;
+        fontId?: number;
+        fontName?: string;
+        fontPreviewUrl?: string;
     };
 }
 

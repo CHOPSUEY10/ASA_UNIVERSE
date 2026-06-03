@@ -4,6 +4,7 @@
     import VariantSelector from '$lib/components/VariantSelector.svelte';
     import PatchSelector from '$lib/components/PatchSelector.svelte';
     import KerahSelector from '$lib/components/KerahSelector.svelte';
+    import FontSelector from '$lib/components/FontSelector.svelte';
     import QuantitySelector from '$lib/components/QuantitySelector.svelte';
     import { authClient } from '$lib/auth-client';
     import { goto } from '$app/navigation';
@@ -24,6 +25,7 @@
     let selectedPatch = $state<number | null>(data.variants.patch[0]?.id || null);
     let selectedSize = $state<number | null>(data.variants.size[0]?.id || null);
     let selectedKain = $state<number | null>(data.variants.kain[0]?.id || null);
+    let selectedFont = $state<number | null>(data.variants.font && data.variants.font.length > 0 ? data.variants.font[0].id : null);
     let quantity = $state(1);
 
     const session = authClient.useSession();
@@ -84,8 +86,8 @@
             return;
         }
 
-        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch || !selectedKain) {
-            toast.add('Silakan pilih semua varian dan unggah desain Anda', 'error');
+        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch || !selectedKain || !selectedFont) {
+            toast.add('Silakan pilih semua varian (termasuk font) dan unggah desain Anda', 'error');
             return;
         }
 
@@ -102,10 +104,13 @@
                 patch: variants.patch.find(v => v.id === selectedPatch)?.name,
                 size: variants.size.find(v => v.id === selectedSize)?.name,
                 kain: variants.kain.find(v => v.id === selectedKain)?.name,
+                fontName: variants.font.find(v => v.id === selectedFont)?.name,
+                fontPreviewUrl: variants.font.find(v => v.id === selectedFont)?.previewUrl,
                 kerahId: selectedKerah,
                 patchId: selectedPatch,
                 sizeId: selectedSize,
-                kainId: selectedKain
+                kainId: selectedKain,
+                fontId: selectedFont
             }
         };
 
@@ -120,8 +125,8 @@
             return;
         }
 
-        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch || !selectedKain) {
-            toast.add('Silakan pilih semua varian dan unggah desain Anda', 'error');
+        if (!selectedSize || !designFileUrl || !selectedKerah || !selectedPatch || !selectedKain || !selectedFont) {
+            toast.add('Silakan pilih semua varian (termasuk font) dan unggah desain Anda', 'error');
             return;
         }
 
@@ -131,6 +136,7 @@
             `*Kain:* ${variants.kain.find(v => v.id === selectedKain)?.name}\n` +
             `*Kerah:* ${variants.kerah.find(v => v.id === selectedKerah)?.name}\n` +
             `*Patch:* ${variants.patch.find(v => v.id === selectedPatch)?.name}\n` +
+            `*Font:* ${variants.font.find(v => v.id === selectedFont)?.name}\n` +
             `*Ukuran:* ${variants.size.find(v => v.id === selectedSize)?.name}\n` +
             `*Jumlah:* ${quantity} pcs\n` +
             `*Desain:* ${designFileUrl}\n\n` +
@@ -271,6 +277,14 @@
                         selectedId={selectedSize} 
                         onSelect={(id) => selectedSize = id as number} 
                     />
+
+                    {#if variants.font && variants.font.length > 0}
+                        <FontSelector 
+                            fonts={variants.font} 
+                            selectedId={selectedFont} 
+                            onSelect={(id) => selectedFont = id as number} 
+                        />
+                    {/if}
 
                     <!-- Quantity -->
                     <QuantitySelector 

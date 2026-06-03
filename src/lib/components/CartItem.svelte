@@ -48,6 +48,7 @@
                 {#if item.variants.kain}<p>Kain: {item.variants.kain}</p>{/if}
                 {#if item.variants.kerah}<p>Kerah: {item.variants.kerah}</p>{/if}
                 {#if item.variants.patch}<p>Patch: {item.variants.patch}</p>{/if}
+                {#if item.variants.fontName}<p>Font: {item.variants.fontName}</p>{/if}
             </div>
         </div>
         <div class="flex flex-1 items-end justify-between text-sm">

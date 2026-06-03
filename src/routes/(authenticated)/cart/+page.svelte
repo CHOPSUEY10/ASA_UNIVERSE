@@ -60,6 +60,7 @@
                 text += `   - Kain: ${item.variants.kain}\n`;
                 text += `   - Kerah: ${item.variants.kerah}\n`;
                 text += `   - Patch: ${item.variants.patch}\n`;
+                text += `   - Font: ${item.variants.fontName}\n`;
                 text += `   - Ukuran: ${item.variants.size}\n`;
                 text += `   - Sub: ${formatter.format(item.price * item.quantity)}\n\n`;
             });

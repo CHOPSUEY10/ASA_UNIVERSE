@@ -21,12 +21,15 @@ export const load: PageServerLoad = async ({ params }) => {
         throw error(404, 'Product not found');
     }
 
-    const [kerahs, patches, sizes, kains] = await Promise.all([
+    const [kerahs, patches, sizes, kains, fonts] = await Promise.all([
         prisma.kerah.findMany(),
         prisma.patch.findMany(),
         prisma.size.findMany(),
         prisma.kain.findMany({
             where: { quality: product.kain.quality }
+        }),
+        prisma.font.findMany({
+            where: { active: true }
         })
     ]);
 
@@ -47,6 +50,11 @@ export const load: PageServerLoad = async ({ params }) => {
         kain: kains.map(k => ({
             id: k.id,
             name: k.nama
+        })),
+        font: fonts.map(f => ({
+            id: f.id,
+            name: f.name,
+            previewUrl: f.previewUrl
         }))
     };
 
