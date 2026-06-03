@@ -19,6 +19,14 @@
     <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
         <h2 class="text-xl font-bold text-white mb-4">Aksi Cepat</h2>
         <div class="space-y-4">
+            <a href="/admin/orders" class="block p-4 bg-zinc-950 rounded-lg border border-zinc-800 hover:border-blue-500 transition-colors">
+                <div class="flex items-center text-white">
+                    <svg class="w-6 h-6 mr-3 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    Lihat Pesanan
+                </div>
+            </a>
             <a href="/admin/products" class="block p-4 bg-zinc-950 rounded-lg border border-zinc-800 hover:border-red-500 transition-colors">
                 <div class="flex items-center text-white">
                     <svg class="w-6 h-6 mr-3 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">

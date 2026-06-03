@@ -18,15 +18,13 @@ export const load: PageServerLoad = async ({ params }) => {
         throw error(404, 'Product not found');
     }
 
-    const [colors, kerahs, patches, sizes] = await Promise.all([
-        prisma.color.findMany(),
+    const [kerahs, patches, sizes] = await Promise.all([
         prisma.kerah.findMany(),
         prisma.patch.findMany(),
         prisma.size.findMany()
     ]);
 
     const variants = {
-        color: colors,
         kerah: kerahs.map(k => ({ 
             id: k.id, 
             name: k.harga > 0 ? `${k.nama} (+Rp ${k.harga.toLocaleString('id-ID')})` : k.nama 

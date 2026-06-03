@@ -38,7 +38,12 @@
                 <p class="ml-4 text-red-500">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(item.price * item.quantity)}</p>
             </div>
             <div class="mt-1 text-sm text-gray-400 space-y-1">
-                {#if item.variants.color}<p>Warna: {item.variants.color}</p>{/if}
+                {#if item.variants.designFileUrl}
+                    <p class="flex items-center space-x-1">
+                        <span>Desain:</span>
+                        <a href={item.variants.designFileUrl} target="_blank" class="text-red-500 hover:text-red-400 underline">Lihat File</a>
+                    </p>
+                {/if}
                 {#if item.variants.size}<p>Ukuran: {item.variants.size}</p>{/if}
                 {#if item.variants.kerah}<p>Kerah: {item.variants.kerah}</p>{/if}
                 {#if item.variants.patch}<p>Patch: {item.variants.patch}</p>{/if}

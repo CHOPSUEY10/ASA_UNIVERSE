@@ -21,8 +21,9 @@ export const GET: RequestHandler = async ({ locals }) => {
                         },
                         kerah: true,
                         patch: true,
-                        size: true,
-                        color: true
+                        patch: true,
+                        size: true
+
                     }
                 }
             }
@@ -38,11 +39,10 @@ export const GET: RequestHandler = async ({ locals }) => {
             quantity: item.quantity,
             image: item.product.images[0]?.url || '',
             variants: {
-                color: item.color.name,
+                designFileUrl: item.designFileUrl,
                 kerah: item.kerah.nama,
                 patch: item.patch.nama,
                 size: item.size.name,
-                colorId: item.colorId,
                 kerahId: item.kerahId,
                 patchId: item.patchId,
                 sizeId: item.sizeId
@@ -86,10 +86,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
             where: {
                 orderId: order.id,
                 productId: itemData.productId,
-                colorId: itemData.variants.colorId,
                 kerahId: itemData.variants.kerahId,
                 patchId: itemData.variants.patchId,
-                sizeId: itemData.variants.sizeId
+                sizeId: itemData.variants.sizeId,
+                designFileUrl: itemData.variants.designFileUrl
             }
         });
 
@@ -122,7 +122,7 @@ export const POST: RequestHandler = async ({ request, locals }) => {
                 data: {
                     orderId: order.id,
                     productId: itemData.productId,
-                    colorId: itemData.variants.colorId,
+                    designFileUrl: itemData.variants.designFileUrl,
                     kerahId: itemData.variants.kerahId,
                     patchId: itemData.variants.patchId,
                     sizeId: itemData.variants.sizeId,

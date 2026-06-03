@@ -10,10 +10,10 @@ export interface CartItem {
     image: string;
     variants: {
         kain?: string;
-        color?: string;
         kerah?: string;
         patch?: string;
         size?: string;
+        designFileUrl?: string;
         kainId?: number;
         kerahId?: number;
         patchId?: number;
@@ -59,10 +59,10 @@ function createCartStore() {
                     update((items) => {
                         const existingIndex = items.findIndex(
                             i => i.productId === item.productId &&
-                            i.variants.colorId === item.variants.colorId &&
                             i.variants.kerahId === item.variants.kerahId &&
                             i.variants.patchId === item.variants.patchId &&
-                            i.variants.sizeId === item.variants.sizeId
+                            i.variants.sizeId === item.variants.sizeId &&
+                            i.variants.designFileUrl === item.variants.designFileUrl
                         );
                         let newItems;
                         if (existingIndex >= 0) {

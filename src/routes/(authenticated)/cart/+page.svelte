@@ -56,7 +56,7 @@
             
             $cart.forEach((item, index) => {
                 text += `${index + 1}. *${item.name}* (${item.quantity} pcs)\n`;
-                text += `   - Warna: ${item.variants.color}\n`;
+                text += `   - Desain: ${item.variants.designFileUrl || '-'}\n`;
                 text += `   - Kerah: ${item.variants.kerah}\n`;
                 text += `   - Patch: ${item.variants.patch}\n`;
                 text += `   - Ukuran: ${item.variants.size}\n`;
