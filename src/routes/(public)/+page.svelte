@@ -157,16 +157,7 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
             <div class="h-96 rounded-sm overflow-hidden border border-gray-200 shadow-sm">
                 <!-- Replace with real google maps iframe -->
-                <iframe 
-                    title="Google Maps Location"
-                    src="https://maps.app.goo.gl/BHD3frJ7oSdEFo3c6" 
-                    width="100%" 
-                    height="100%" 
-                    style="border:0;" 
-                    allowfullscreen={true} 
-                    loading="lazy" 
-                    referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d8156757.052933032!2d102.13731542566728!3d-3.400974185673756!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x31d973005205c239%3A0x8be46109e314f2b2!2sAsa%20Kopi!5e0!3m2!1sen!2sid!4v1780664843211!5m2!1sen!2sid" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
             </div>
             
             <div class="space-y-6">
