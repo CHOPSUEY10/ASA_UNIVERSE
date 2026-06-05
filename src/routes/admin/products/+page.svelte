@@ -12,7 +12,7 @@
 
     let isFormOpen = $state(false);
     let isDeleteOpen = $state(false);
-    let selectedProduct = $state(null);
+    let selectedProduct = $state<any>(null);
     let selectedId = $state(0);
 
     function openCreate() {

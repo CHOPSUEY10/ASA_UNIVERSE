@@ -7,7 +7,7 @@
         onDelete: (id: number) => void;
     } = $props();
 
-    const columns = [
+    const columns: Array<{key: string, label: string, type?: 'boolean' | 'date' | 'currency' | 'action'}> = [
         { key: 'id', label: 'ID' },
         { key: 'name', label: 'Name' },
         { key: 'price', label: 'Price', type: 'currency' },

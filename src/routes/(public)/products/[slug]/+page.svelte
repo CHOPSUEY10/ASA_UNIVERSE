@@ -21,11 +21,20 @@
     let isUploading = $state(false);
     let uploadFileInput: HTMLInputElement | undefined = $state();
 
-    let selectedKerah = $state<number | null>(data.variants.kerah[0]?.id || null);
-    let selectedPatch = $state<number | null>(data.variants.patch[0]?.id || null);
-    let selectedSize = $state<number | null>(data.variants.size[0]?.id || null);
-    let selectedKain = $state<number | null>(data.variants.kain[0]?.id || null);
-    let selectedFont = $state<number | null>(data.variants.font && data.variants.font.length > 0 ? data.variants.font[0].id : null);
+    let initialKerah = data.variants.kerah[0]?.id || null;
+    let selectedKerah = $state<number | null>(initialKerah);
+    
+    let initialPatch = data.variants.patch[0]?.id || null;
+    let selectedPatch = $state<number | null>(initialPatch);
+    
+    let initialSize = data.variants.size[0]?.id || null;
+    let selectedSize = $state<number | null>(initialSize);
+    
+    let initialKain = data.variants.kain[0]?.id || null;
+    let selectedKain = $state<number | null>(initialKain);
+    
+    let initialFont = data.variants.font && data.variants.font.length > 0 ? data.variants.font[0].id : null;
+    let selectedFont = $state<number | null>(initialFont);
     let quantity = $state(1);
 
     const session = authClient.useSession();
@@ -100,12 +109,12 @@
             image: product.images[0]?.url || '',
             variants: {
                 designFileUrl: designFileUrl,
-                kerah: variants.kerah.find(v => v.id === selectedKerah)?.name,
-                patch: variants.patch.find(v => v.id === selectedPatch)?.name,
-                size: variants.size.find(v => v.id === selectedSize)?.name,
-                kain: variants.kain.find(v => v.id === selectedKain)?.name,
-                fontName: variants.font.find(v => v.id === selectedFont)?.name,
-                fontPreviewUrl: variants.font.find(v => v.id === selectedFont)?.previewUrl,
+                kerah: variants.kerah.find((v: any) => v.id === selectedKerah)?.name,
+                patch: variants.patch.find((v: any) => v.id === selectedPatch)?.name,
+                size: variants.size.find((v: any) => v.id === selectedSize)?.name,
+                kain: variants.kain.find((v: any) => v.id === selectedKain)?.name,
+                fontName: variants.font.find((v: any) => v.id === selectedFont)?.name,
+                fontPreviewUrl: variants.font.find((v: any) => v.id === selectedFont)?.previewUrl,
                 kerahId: selectedKerah,
                 patchId: selectedPatch,
                 sizeId: selectedSize,
@@ -133,11 +142,11 @@
         const phone = config.whatsapp.csNumber;
         const text = `Halo ASA Universe! Saya ingin memesan:\n\n` +
             `*Produk:* ${product.name}\n` +
-            `*Kain:* ${variants.kain.find(v => v.id === selectedKain)?.name}\n` +
-            `*Kerah:* ${variants.kerah.find(v => v.id === selectedKerah)?.name}\n` +
-            `*Patch:* ${variants.patch.find(v => v.id === selectedPatch)?.name}\n` +
-            `*Font:* ${variants.font.find(v => v.id === selectedFont)?.name}\n` +
-            `*Ukuran:* ${variants.size.find(v => v.id === selectedSize)?.name}\n` +
+            `*Kain:* ${variants.kain.find((v: any) => v.id === selectedKain)?.name}\n` +
+            `*Kerah:* ${variants.kerah.find((v: any) => v.id === selectedKerah)?.name}\n` +
+            `*Patch:* ${variants.patch.find((v: any) => v.id === selectedPatch)?.name}\n` +
+            `*Font:* ${variants.font.find((v: any) => v.id === selectedFont)?.name}\n` +
+            `*Ukuran:* ${variants.size.find((v: any) => v.id === selectedSize)?.name}\n` +
             `*Jumlah:* ${quantity} pcs\n` +
             `*Desain:* ${designFileUrl}\n\n` +
             `Mohon info lebih lanjut untuk proses pembayarannya. Terima kasih!`;
