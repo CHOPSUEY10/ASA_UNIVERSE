@@ -92,10 +92,10 @@
     <title>Reset Password | ASA Universe</title>
 </svelte:head>
 
-<div class="max-w-md mx-auto my-16 p-8 bg-zinc-900 border border-zinc-800 rounded-xl shadow-2xl">
-    <h1 class="text-3xl font-bold text-white mb-2 text-center">Buat Password Baru</h1>
-    <p class="text-gray-400 text-center mb-6 text-sm">
-        Masukkan kode OTP yang dikirim ke <span class="font-medium text-white">{email}</span> beserta password baru Anda.
+<div class="max-w-md mx-auto my-16 p-8 bg-white border border-gray-200 rounded-sm shadow-sm">
+    <h1 class="text-3xl font-black text-gray-900 mb-2 text-center uppercase tracking-widest">Buat Password Baru</h1>
+    <p class="text-gray-500 text-center mb-6 text-sm font-medium">
+        Masukkan kode OTP yang dikirim ke <span class="font-bold text-gray-900">{email}</span> beserta password baru Anda.
     </p>
 
     <form 
@@ -112,13 +112,13 @@
         <input type="hidden" name="email" value={email} />
 
         {#if form?.error}
-            <div class="p-3 bg-red-900/50 border border-red-500 rounded-lg text-red-200 text-sm text-center">
+            <div class="p-3 bg-red-50 border border-red-200 rounded-sm text-red-600 text-xs font-bold uppercase tracking-wider text-center">
                 {form.error}
             </div>
         {/if}
 
         <div>
-            <label for="otp" class="block text-sm font-medium text-gray-300 mb-2">Kode OTP (6 digit)</label>
+            <label for="otp" class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Kode OTP (6 digit)</label>
             <input 
                 type="text" 
                 id="otp" 
@@ -126,33 +126,33 @@
                 bind:value={otp} 
                 required 
                 maxLength={6} 
-                class="block w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-lg text-white focus:ring-red-500 focus:border-red-500 transition-colors text-center tracking-widest text-lg" 
+                class="block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-sm text-gray-900 focus:ring-[#990000] focus:border-[#990000] transition-colors text-center font-bold tracking-widest text-lg uppercase" 
                 placeholder="••••••" 
             />
         </div>
 
         <div>
-            <label for="newPassword" class="block text-sm font-medium text-gray-300 mb-2">Password Baru</label>
+            <label for="newPassword" class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Password Baru</label>
             <input 
                 type="password" 
                 id="newPassword" 
                 name="newPassword"
                 bind:value={newPassword} 
                 required 
-                class="block w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-lg text-white focus:ring-red-500 focus:border-red-500 transition-colors" 
+                class="block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-sm text-gray-900 focus:ring-[#990000] focus:border-[#990000] transition-colors" 
                 placeholder="••••••••" 
             />
         </div>
 
         <div>
-            <label for="confirmPassword" class="block text-sm font-medium text-gray-300 mb-2">Konfirmasi Password</label>
+            <label for="confirmPassword" class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Konfirmasi Password</label>
             <input 
                 type="password" 
                 id="confirmPassword" 
                 name="confirmPassword"
                 bind:value={confirmPassword} 
                 required 
-                class="block w-full px-4 py-3 bg-zinc-950 border border-zinc-800 rounded-lg text-white focus:ring-red-500 focus:border-red-500 transition-colors" 
+                class="block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-sm text-gray-900 focus:ring-[#990000] focus:border-[#990000] transition-colors" 
                 placeholder="••••••••" 
             />
         </div>
@@ -160,7 +160,7 @@
         <button 
             type="submit" 
             disabled={isLoading} 
-            class="w-full py-3 bg-red-600 text-white font-medium rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 flex justify-center items-center"
+            class="w-full py-4 bg-[#111] text-white font-bold text-sm uppercase tracking-widest rounded-sm hover:bg-black transition-colors disabled:opacity-50 flex justify-center items-center shadow-md"
         >
             {#if isLoading}
                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -176,22 +176,22 @@
 
     <div class="mt-4 text-center">
         {#if isResending}
-            <span class="text-sm text-gray-400">Mengirim ulang...</span>
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Mengirim ulang...</span>
         {:else if cooldownRemaining > 0}
-            <span class="text-sm text-gray-400">Kirim ulang OTP dalam {formatTime(cooldownRemaining)}</span>
+            <span class="text-xs font-bold text-gray-400 uppercase tracking-wider">Kirim ulang OTP ({formatTime(cooldownRemaining)})</span>
         {:else}
             <button 
                 type="button" 
                 onclick={handleResendOtp}
-                class="text-sm text-red-500 hover:text-red-400 font-medium transition-colors"
+                class="text-xs font-bold text-[#990000] hover:text-red-700 uppercase tracking-wider transition-colors"
             >
                 Kirim Ulang Kode OTP
             </button>
         {/if}
     </div>
 
-    <div class="mt-6 text-center">
-        <a href="/login" class="text-sm text-gray-400 hover:text-white transition-colors flex items-center justify-center">
+    <div class="mt-8 text-center border-t border-gray-100 pt-6">
+        <a href="/login" class="text-xs font-bold text-gray-500 hover:text-gray-900 uppercase tracking-wider transition-colors flex items-center justify-center">
             Batal
         </a>
     </div>

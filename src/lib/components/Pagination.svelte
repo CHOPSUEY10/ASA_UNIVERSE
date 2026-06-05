@@ -7,14 +7,14 @@
 </script>
 
 {#if totalPages > 1}
-    <div class="flex items-center justify-center mt-12 space-x-2">
+    <div class="flex items-center justify-center space-x-2">
         <button 
             type="button" 
             onclick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            class="px-4 py-2 border border-zinc-700 bg-zinc-900 text-sm font-medium rounded-md text-gray-300 hover:bg-zinc-800 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-4 py-2 border border-gray-200 bg-white text-xs font-bold uppercase tracking-widest rounded-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
-            Previous
+            Prev
         </button>
         
         <div class="hidden sm:flex space-x-2">
@@ -22,7 +22,7 @@
                 <button
                     type="button"
                     onclick={() => onPageChange(i + 1)}
-                    class={`px-4 py-2 text-sm font-medium rounded-md transition-colors ${currentPage === i + 1 ? 'bg-red-600 text-white border border-red-600' : 'border border-zinc-700 bg-zinc-900 text-gray-300 hover:bg-zinc-800 hover:text-white'}`}
+                    class={`w-10 h-10 flex items-center justify-center text-xs font-bold rounded-sm transition-colors ${currentPage === i + 1 ? 'bg-[#111] text-white border border-[#111]' : 'border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900'}`}
                 >
                     {i + 1}
                 </button>
@@ -33,7 +33,7 @@
             type="button" 
             onclick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            class="px-4 py-2 border border-zinc-700 bg-zinc-900 text-sm font-medium rounded-md text-gray-300 hover:bg-zinc-800 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-4 py-2 border border-gray-200 bg-white text-xs font-bold uppercase tracking-widest rounded-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
             Next
         </button>

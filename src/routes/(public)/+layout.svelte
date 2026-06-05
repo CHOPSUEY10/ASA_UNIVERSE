@@ -11,7 +11,7 @@
     });
 </script>
 
-<div class="min-h-screen flex flex-col bg-black text-white font-sans selection:bg-red-500 selection:text-white">
+<div class="min-h-screen flex flex-col bg-white text-gray-900 font-sans selection:bg-[#990000] selection:text-white">
     <Header />
     
     <main class="flex-grow">

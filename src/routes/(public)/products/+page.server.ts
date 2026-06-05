@@ -6,6 +6,7 @@ export const load: PageServerLoad = async ({ url }) => {
     const limit = 12;
     const skip = (page - 1) * limit;
     const search = url.searchParams.get('q') || '';
+    const sort = url.searchParams.get('sort') || 'newest';
 
     const whereClause: any = {
         isActive: true,
@@ -16,6 +17,11 @@ export const load: PageServerLoad = async ({ url }) => {
             contains: search,
             mode: 'insensitive'
         };
+    }
+
+    let orderBy: any = { createdAt: 'desc' };
+    if (sort === 'oldest') {
+        orderBy = { createdAt: 'asc' };
     }
 
     const [products, totalItems] = await Promise.all([
@@ -29,7 +35,7 @@ export const load: PageServerLoad = async ({ url }) => {
             },
             skip,
             take: limit,
-            orderBy: { id: 'desc' }
+            orderBy
         }),
         prisma.product.count({ where: whereClause })
     ]);

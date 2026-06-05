@@ -22,22 +22,22 @@
 </script>
 
 <div class="flex items-center space-x-4 mb-6">
-    <h3 class="text-sm font-medium text-gray-300 uppercase tracking-wide">Jumlah</h3>
-    <div class="flex items-center border border-zinc-700 rounded-md bg-zinc-900 overflow-hidden">
+    <h3 class="text-xs font-bold text-gray-700 uppercase tracking-wider">Quantity</h3>
+    <div class="flex items-center border border-gray-200 rounded-sm bg-white overflow-hidden">
         <button 
             type="button" 
             onclick={decrement}
             disabled={quantity <= min}
-            class="px-4 py-3 text-gray-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-4 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-bold text-lg"
         >
             -
         </button>
-        <span class="px-4 py-3 text-white font-medium min-w-[3rem] text-center">{quantity}</span>
+        <span class="px-4 py-2 text-gray-900 font-bold min-w-[3rem] text-center border-x border-gray-200">{quantity}</span>
         <button 
             type="button" 
             onclick={increment}
             disabled={quantity >= max}
-            class="px-4 py-3 text-gray-400 hover:text-white hover:bg-zinc-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-4 py-2 text-gray-500 hover:text-gray-900 hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition-colors font-bold text-lg"
         >
             +
         </button>

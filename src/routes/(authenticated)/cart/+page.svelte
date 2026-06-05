@@ -88,28 +88,28 @@
     <title>Keranjang Belanja | ASA Universe</title>
 </svelte:head>
 
-<div class="min-h-screen flex flex-col bg-black text-white font-sans selection:bg-red-500 selection:text-white">
+<div class="min-h-screen flex flex-col bg-white text-gray-900 font-sans selection:bg-[#990000] selection:text-white">
     <Header />
     
-    <main class="flex-grow pt-12 pb-20">
+    <main class="flex-grow pt-12 pb-20 border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h1 class="text-3xl font-bold text-white uppercase tracking-wider mb-8">Keranjang <span class="text-red-600">Belanja</span></h1>
+            <h1 class="text-3xl font-black text-gray-900 uppercase tracking-widest mb-8">Keranjang <span class="text-[#990000]">Belanja</span></h1>
 
             {#if $cart.length === 0}
-                <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-12 text-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-zinc-600 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <div class="bg-gray-50 border border-gray-200 rounded-sm p-12 text-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-16 w-16 mx-auto text-gray-400 mb-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                     </svg>
-                    <h2 class="text-xl font-bold text-white mb-2">Keranjang Anda kosong</h2>
-                    <p class="text-gray-400 mb-6">Sepertinya Anda belum menambahkan produk apapun ke keranjang.</p>
-                    <a href="/products" class="inline-block bg-red-600 hover:bg-red-700 text-white px-6 py-3 rounded-md font-medium transition-colors">
+                    <h2 class="text-xl font-bold text-gray-900 mb-2 uppercase tracking-wider">Keranjang Anda kosong</h2>
+                    <p class="text-gray-500 mb-6 font-medium">Sepertinya Anda belum menambahkan produk apapun ke keranjang.</p>
+                    <a href="/products" class="inline-block bg-[#111] hover:bg-black text-white px-6 py-3 rounded-sm font-bold uppercase tracking-wider transition-colors shadow-sm">
                         Mulai Belanja
                     </a>
                 </div>
             {:else}
                 <div class="lg:grid lg:grid-cols-12 lg:gap-x-12 lg:items-start">
                     <div class="lg:col-span-8">
-                        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+                        <div class="bg-white border border-gray-200 rounded-sm p-6 shadow-sm">
                             {#each $cart as item (item.id)}
                                 <CartItem {item} />
                             {/each}
@@ -118,39 +118,39 @@
 
                     <!-- Order Summary -->
                     <div class="mt-8 lg:mt-0 lg:col-span-4 lg:sticky lg:top-24">
-                        <div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6 mb-24 lg:mb-0">
-                            <h2 class="text-lg font-bold text-white mb-4 border-b border-zinc-800 pb-4">Ringkasan Pesanan</h2>
+                        <div class="bg-white border border-gray-200 rounded-sm p-6 shadow-sm mb-24 lg:mb-0">
+                            <h2 class="text-sm font-bold text-gray-900 mb-4 border-b border-gray-200 pb-4 uppercase tracking-wider">Ringkasan Pesanan</h2>
                             
                             <div class="flow-root mb-6">
-                                <dl class="-my-4 text-sm divide-y divide-zinc-800">
+                                <dl class="-my-4 text-sm divide-y divide-gray-100">
                                     <div class="py-4 flex items-center justify-between">
-                                        <dt class="text-gray-400">Total Item</dt>
-                                        <dd class="font-medium text-white">{totalItems} pcs</dd>
+                                        <dt class="text-gray-500 font-medium">Total Item</dt>
+                                        <dd class="font-bold text-gray-900">{totalItems} pcs</dd>
                                     </div>
                                     <div class="py-4 flex items-center justify-between">
-                                        <dt class="text-base font-bold text-white">Total Estimasi</dt>
-                                        <dd class="text-lg font-bold text-red-500">{formatter.format(subtotal)}</dd>
+                                        <dt class="text-sm font-bold text-gray-900 uppercase tracking-wide">Total Estimasi</dt>
+                                        <dd class="text-lg font-black text-[#990000]">{formatter.format(subtotal)}</dd>
                                     </div>
                                 </dl>
                             </div>
 
                             {#if totalItems < 12}
-                                <div class="mb-4 bg-red-500/10 border border-red-500/20 text-red-400 p-3 rounded-lg text-sm text-center">
+                                <div class="mb-4 bg-red-50 border border-red-100 text-red-600 p-3 rounded-sm text-sm text-center font-medium">
                                     Minimal pemesanan adalah 12 pcs. <br/>(Kurang {12 - totalItems} pcs lagi)
                                 </div>
                             {/if}
 
                             <!-- Sticky Action Bar for Mobile -->
-                            <div class="fixed bottom-0 left-0 right-0 p-4 bg-zinc-950/95 backdrop-blur-md border-t border-zinc-800 z-50 lg:relative lg:border-t-0 lg:bg-transparent lg:p-0 lg:flex-row shadow-[0_-4px_20px_rgba(0,0,0,0.5)] lg:shadow-none">
+                            <div class="fixed bottom-0 left-0 right-0 p-4 bg-white/95 backdrop-blur-md border-t border-gray-200 z-50 lg:relative lg:border-t-0 lg:bg-transparent lg:p-0 lg:flex-row shadow-[0_-4px_20px_rgba(0,0,0,0.05)] lg:shadow-none">
                                 <div class="flex items-center justify-between lg:hidden mb-3 px-2">
-                                    <span class="text-gray-400 text-sm font-medium">Total:</span>
-                                    <span class="text-white font-bold text-lg">{formatter.format(subtotal)}</span>
+                                    <span class="text-gray-500 text-xs font-bold uppercase tracking-wider">Total:</span>
+                                    <span class="text-gray-900 font-black text-lg">{formatter.format(subtotal)}</span>
                                 </div>
                                 <button
                                     type="button"
                                     onclick={handleCheckout}
                                     disabled={isCheckingOut || totalItems < 12}
-                                    class="w-full bg-green-600 hover:bg-green-700 text-white px-4 py-3 lg:px-6 lg:py-4 rounded-xl font-bold transition-all transform lg:hover:-translate-y-1 lg:hover:shadow-lg lg:hover:shadow-green-900/30 text-center flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:transform-none disabled:hover:shadow-none"
+                                    class="w-full bg-[#111] hover:bg-black text-white px-4 py-4 lg:px-6 lg:py-5 rounded-sm font-bold uppercase tracking-widest transition-all text-center flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg shadow-black/10"
                                 >
                                     {#if isCheckingOut}
                                         <svg class="animate-spin h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -166,7 +166,7 @@
                                         <span class="lg:hidden">Checkout</span>
                                     {/if}
                                 </button>
-                                <p class="text-xs text-gray-500 mt-2 lg:mt-4 text-center">Checkout akan diarahkan ke CS kami.</p>
+                                <p class="text-xs font-medium text-gray-500 mt-3 text-center">Checkout akan diarahkan ke CS kami.</p>
                             </div>
                         </div>
                     </div>
