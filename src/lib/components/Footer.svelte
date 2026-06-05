@@ -17,7 +17,7 @@
                 <ul class="space-y-2">
                     <li><a href="/products" class="text-gray-500 hover:text-[#990000] transition-colors text-sm font-bold uppercase tracking-wide">Katalog Produk</a></li>
                     <li><a href="/#cara-order" class="text-gray-500 hover:text-[#990000] transition-colors text-sm font-bold uppercase tracking-wide">Cara Order</a></li>
-                    <li><a href="/#faq" class="text-gray-500 hover:text-[#990000] transition-colors text-sm font-bold uppercase tracking-wide">FAQ</a></li>
+                    <li><a href="/faq" class="text-gray-500 hover:text-[#990000] transition-colors text-sm font-bold uppercase tracking-wide">FAQ</a></li>
                 </ul>
             </div>
 

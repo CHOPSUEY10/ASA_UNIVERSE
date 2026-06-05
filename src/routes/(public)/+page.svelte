@@ -33,7 +33,7 @@
 <section class="py-12 bg-gray-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <a href="#cara-order" class="bg-white p-6 flex justify-between items-center rounded-lg shadow-sm hover:shadow-md border border-gray-100 transition-all group">
+            <a href="#faq" class="bg-white p-6 flex justify-between items-center rounded-lg shadow-sm hover:shadow-md border border-gray-100 transition-all group">
                 <div class="flex items-center gap-4">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 text-gray-800">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M19.5 14.25v-2.625a3.375 3.375 0 0 0-3.375-3.375h-1.5A1.125 1.125 0 0 1 13.5 7.125v-1.5a3.375 3.375 0 0 0-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 0 0-9-9Z" />
@@ -159,7 +159,7 @@
                 <!-- Replace with real google maps iframe -->
                 <iframe 
                     title="Google Maps Location"
-                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126748.60965005893!2d107.57311739502758!3d-6.903444341517406!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e6398252477f%3A0x146a1f93d3e815b2!2sBandung%2C%20Bandung%20City%2C%20West%20Java!5e0!3m2!1sen!2sid!4v1689255018698!5m2!1sen!2sid" 
+                    src="https://maps.app.goo.gl/BHD3frJ7oSdEFo3c6" 
                     width="100%" 
                     height="100%" 
                     style="border:0;" 
