@@ -64,7 +64,7 @@
         <img src="/uploads/hero.jpg" alt="Athlete sprinting" class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-50" />
         <div class="absolute inset-0 bg-[url('/hero/hero_section.jpg')] bg-cover bg-center bg-no-repeat opacity-20 mix-blend-overlay"></div>
         
-        <div class="relative z-20 w-full">
+        <div class="relative z-20 w-full mb-[10em]">
             <h1 class="text-5xl lg:text-6xl font-black text-white leading-tight uppercase tracking-tighter">
                 Velocity<br/>In Every Move
             </h1>

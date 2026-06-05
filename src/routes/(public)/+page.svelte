@@ -145,7 +145,7 @@
 </section>
 
 <!-- Location Section -->
-<section class="py-16 bg-white border-t border-gray-200">
+<section id="kontak" class="py-16 bg-white border-t border-gray-200">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="mb-10">
             <h2 class="text-3xl font-black text-gray-900 uppercase tracking-tight">Kunjungi <span class="text-[#990000]">Toko Kami</span></h2>
