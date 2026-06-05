@@ -85,61 +85,49 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded mb-4 overflow-hidden flex items-center justify-center">
-                    <div class="w-full h-full bg-[#111] p-4 flex flex-col gap-1 items-center justify-center">
-                        <div class="w-full h-2 bg-gray-700 rounded-sm"></div>
-                        <div class="w-full h-2 bg-gray-700 rounded-sm"></div>
-                        <div class="w-full h-2 bg-gray-700 rounded-sm"></div>
-                        <div class="w-full h-2 bg-gray-700 rounded-sm"></div>
-                    </div>
+            <a href="/size-chart" class="block bg-white p-4 rounded-sm shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
+                <div class="aspect-square bg-gray-100 rounded-sm mb-4 overflow-hidden flex items-center justify-center relative">
+                    <img src="/etc/size_chart.png" alt="Size Chart" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
-                <h3 class="font-bold text-gray-900 text-sm uppercase">Size Chart</h3>
+                <h3 class="font-bold text-gray-900 text-sm uppercase group-hover:text-[#990000] transition-colors">Size Chart</h3>
                 <p class="text-xs text-gray-500 mt-1 mb-3">Panduan ukuran jersey untuk semua pilihan.</p>
                 <div class="text-right">
-                    <span class="text-[#990000]">→</span>
+                    <span class="text-[#990000] font-bold">→</span>
                 </div>
-            </div>
+            </a>
             
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded mb-4 overflow-hidden flex items-center justify-center">
-                    <div class="w-full h-full bg-[#111] p-4 flex items-center justify-center">
-                        <div class="w-16 h-12 border-t-4 border-l-4 border-r-4 border-gray-600 rounded-t-lg"></div>
-                    </div>
+            <a href="/model-kerah" class="block bg-white p-4 rounded-sm shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
+                <div class="aspect-square bg-gray-100 rounded-sm mb-4 overflow-hidden flex items-center justify-center relative">
+                    <img src="/etc/model_kerah.png" alt="Model Kerah" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
-                <h3 class="font-bold text-gray-900 text-sm uppercase">Model Kerah</h3>
+                <h3 class="font-bold text-gray-900 text-sm uppercase group-hover:text-[#990000] transition-colors">Model Kerah</h3>
                 <p class="text-xs text-gray-500 mt-1 mb-3">Pilihan model kerah sesuai kebutuhan tim.</p>
                 <div class="text-right">
-                    <span class="text-[#990000]">→</span>
+                    <span class="text-[#990000] font-bold">→</span>
                 </div>
-            </div>
+            </a>
 
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded mb-4 overflow-hidden flex items-center justify-center">
-                    <div class="w-full h-full bg-[#111] flex items-center justify-center">
-                        <span class="text-[#990000] font-black text-5xl italic tracking-tighter">26</span>
-                    </div>
+            <a href="/jenis-font" class="block bg-white p-4 rounded-sm shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
+                <div class="aspect-square bg-gray-100 rounded-sm mb-4 overflow-hidden flex items-center justify-center relative">
+                    <img src="/etc/jenis_font.png" alt="Jenis Font" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
-                <h3 class="font-bold text-gray-900 text-sm uppercase">Jenis Font</h3>
+                <h3 class="font-bold text-gray-900 text-sm uppercase group-hover:text-[#990000] transition-colors">Jenis Font</h3>
                 <p class="text-xs text-gray-500 mt-1 mb-3">Berbagai pilihan font nama dan nomor.</p>
                 <div class="text-right">
-                    <span class="text-[#990000]">→</span>
+                    <span class="text-[#990000] font-bold">→</span>
                 </div>
-            </div>
+            </a>
 
-            <div class="bg-white p-4 rounded-lg shadow-sm border border-gray-200 hover:shadow-md transition-shadow">
-                <div class="aspect-w-1 aspect-h-1 bg-gray-100 rounded mb-4 overflow-hidden flex items-center justify-center">
-                    <div class="w-full h-full bg-[#111] flex items-center justify-center overflow-hidden relative">
-                        <div class="w-24 h-24 rounded-full border-4 border-[#990000] opacity-80 absolute -right-4 -bottom-4"></div>
-                        <div class="w-16 h-16 rounded-full border-4 border-[#990000] opacity-80 absolute -left-2 -top-2"></div>
-                    </div>
+            <a href="/patch-logo" class="block bg-white p-4 rounded-sm shadow-sm border border-gray-200 hover:shadow-md transition-shadow group">
+                <div class="aspect-square bg-gray-100 rounded-sm mb-4 overflow-hidden flex items-center justify-center relative">
+                    <img src="/etc/patch_logo.png" alt="Patch Logo" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
-                <h3 class="font-bold text-gray-900 text-sm uppercase">Patch Logo</h3>
+                <h3 class="font-bold text-gray-900 text-sm uppercase group-hover:text-[#990000] transition-colors">Patch Logo</h3>
                 <p class="text-xs text-gray-500 mt-1 mb-3">Pilih patch emblem klub impian tim anda.</p>
                 <div class="text-right">
-                    <span class="text-[#990000]">→</span>
+                    <span class="text-[#990000] font-bold">→</span>
                 </div>
-            </div>
+            </a>
         </div>
     </div>
 </section>
