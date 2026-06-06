@@ -52,12 +52,12 @@
     <title>Katalog Produk | ASA Universe</title>
 </svelte:head>
 
-<div class="bg-white min-h-screen">
+<div class="bg-[#0a0a0a] min-h-screen text-white">
     <!-- Header Banner -->
-    <div class="bg-gray-50 border-b border-gray-200 text-gray-900">
+    <div class="bg-[#050505] border-b border-zinc-800 text-white">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row sm:items-center justify-between py-8">
-            <h1 class="text-3xl font-black uppercase tracking-widest text-[#990000]">Koleksi <span class="text-gray-900">2026</span></h1>
-            <div class="mt-4 sm:mt-0 text-xs font-bold tracking-widest text-gray-500 uppercase">
+            <h1 class="text-3xl font-black uppercase tracking-widest text-[#990000]">Koleksi <span class="text-white">2026</span></h1>
+            <div class="mt-4 sm:mt-0 text-xs font-bold tracking-widest text-gray-400 uppercase">
                 FILTERS: ALL PRODUCTS ({data.pagination.totalItems})
             </div>
         </div>
@@ -70,8 +70,8 @@
             <!-- Left Sidebar -->
             <div class="w-full lg:w-64 flex-shrink-0">
                 <!-- Mobile Collapsible Wrapper -->
-                <details class="lg:hidden group bg-gray-50 border border-gray-200 rounded-sm mb-6 [&_summary::-webkit-details-marker]:hidden">
-                    <summary class="flex justify-between items-center p-4 cursor-pointer font-bold text-gray-900 uppercase text-sm tracking-wider">
+                <details class="lg:hidden group bg-[#111] border border-zinc-800 rounded-sm mb-6 [&_summary::-webkit-details-marker]:hidden">
+                    <summary class="flex justify-between items-center p-4 cursor-pointer font-bold text-white uppercase text-sm tracking-wider">
                         <span class="flex items-center gap-2">
                             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 4a1 1 0 011-1h16a1 1 0 011 1v2.586a1 1 0 01-.293.707l-6.414 6.414a1 1 0 00-.293.707V17l-4 4v-6.586a1 1 0 00-.293-.707L3.293 7.293A1 1 0 013 6.586V4z"></path></svg>
                             Filters
@@ -80,7 +80,7 @@
                             <svg fill="none" height="20" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" viewBox="0 0 24 24" width="20"><path d="M6 9l6 6 6-6"></path></svg>
                         </span>
                     </summary>
-                    <div class="p-4 border-t border-gray-200 space-y-6">
+                    <div class="p-4 border-t border-zinc-800 space-y-6">
                         <SearchBar value={searchValue} onSearch={handleSearch} />
                         <FilterSidebar 
                             categories={data.categories} 
@@ -100,13 +100,13 @@
                     />
                     <!-- Price Range (Simulated UI based on Figma) -->
                     <div>
-                        <h3 class="text-sm font-bold text-gray-900 uppercase tracking-wider mb-4 border-b border-gray-200 pb-2">Price Range</h3>
+                        <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4 border-b border-zinc-800 pb-2">Price Range</h3>
                         <div class="flex items-center gap-2 mb-4">
-                            <input type="text" value="10k" class="w-full text-xs p-2 border border-gray-200 text-center" readonly>
+                            <input type="text" value="10k" class="w-full text-xs p-2 border border-zinc-800 bg-[#0a0a0a] text-white text-center" readonly>
                             <span class="text-gray-400">-</span>
-                            <input type="text" value="500k" class="w-full text-xs p-2 border border-gray-200 text-center" readonly>
+                            <input type="text" value="500k" class="w-full text-xs p-2 border border-zinc-800 bg-[#0a0a0a] text-white text-center" readonly>
                         </div>
-                        <button class="w-full bg-[#111] text-white text-xs font-bold uppercase tracking-widest py-3 hover:bg-gray-800 transition-colors">
+                        <button class="w-full bg-zinc-800 text-white text-xs font-bold uppercase tracking-widest py-3 hover:bg-zinc-700 transition-colors">
                             Clear All
                         </button>
                     </div>
@@ -116,22 +116,22 @@
             <!-- Right Content Area -->
             <div class="flex-1">
                 <!-- Top bar inside content area -->
-                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-gray-200">
-                    <div class="text-xs text-gray-500 uppercase tracking-widest font-bold">
+                <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6 pb-4 border-b border-zinc-800">
+                    <div class="text-xs text-gray-400 uppercase tracking-widest font-bold">
                         Showing {(data.pagination.currentPage - 1) * 12 + 1}-{Math.min(data.pagination.currentPage * 12, data.pagination.totalItems)} of {data.pagination.totalItems} results
                     </div>
                     <div class="flex items-center gap-2">
-                        <label for="sort" class="text-xs font-bold text-gray-700 uppercase tracking-widest">Sort By:</label>
+                        <label for="sort" class="text-xs font-bold text-gray-400 uppercase tracking-widest">Sort By:</label>
                         <select 
                             id="sort" 
-                            class="bg-transparent border-none text-gray-900 text-sm font-bold focus:ring-0 cursor-pointer"
+                            class="bg-[#111] border border-zinc-800 text-white text-sm font-bold focus:ring-0 cursor-pointer p-2 rounded-sm"
                             onchange={(e) => handleSortChange(e.currentTarget.value)}
                             value={sortValue}
                         >
                             <option value="newest">Newest</option>
                             <option value="oldest">Oldest</option>
                         </select>
-                        <div class="hidden sm:flex items-center gap-1 ml-4 border-l border-gray-200 pl-4 text-gray-400">
+                        <div class="hidden sm:flex items-center gap-1 ml-4 border-l border-zinc-800 pl-4 text-zinc-600">
                             <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="w-5 h-5 text-[#990000]">
                                 <path fill-rule="evenodd" d="M3 5.25a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 5.25Zm0 4.5A.75.75 0 0 1 3.75 9h16.5a.75.75 0 0 1 0 1.5H3.75A.75.75 0 0 1 3 9.75Zm0 4.5a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Zm0 4.5a.75.75 0 0 1 .75-.75h16.5a.75.75 0 0 1 0 1.5H3.75a.75.75 0 0 1-.75-.75Z" clip-rule="evenodd" />
                             </svg>
@@ -144,7 +144,7 @@
 
                 <ProductGrid products={data.products} />
                 
-                <div class="mt-12 flex justify-center border-t border-gray-200 pt-8">
+                <div class="mt-12 flex justify-center border-t border-zinc-800 pt-8">
                     <Pagination 
                         currentPage={data.pagination.currentPage} 
                         totalPages={data.pagination.totalPages} 

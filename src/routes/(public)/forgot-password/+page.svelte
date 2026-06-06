@@ -65,9 +65,9 @@
     <title>Ubah Password | ASA Universe</title>
 </svelte:head>
 
-<div class="max-w-md mx-auto my-16 p-8 bg-white border border-gray-200 rounded-sm shadow-sm">
-    <h1 class="text-3xl font-black text-gray-900 mb-2 text-center uppercase tracking-widest">Ubah Password</h1>
-    <p class="text-gray-500 text-center mb-6 text-sm font-medium">Masukkan email Anda untuk menerima kode OTP.</p>
+<div class="max-w-md mx-auto my-16 p-8 bg-[#111] border border-zinc-800 rounded-sm shadow-sm">
+    <h1 class="text-3xl font-black text-white mb-2 text-center uppercase tracking-widest">Ubah Password</h1>
+    <p class="text-zinc-400 text-center mb-6 text-sm font-medium">Masukkan email Anda untuk menerima kode OTP.</p>
 
     <form 
         method="POST" 
@@ -87,20 +87,20 @@
         class="space-y-5"
     >
         {#if form?.error}
-            <div class="p-3 bg-red-50 border border-red-200 rounded-sm text-red-600 text-xs font-bold uppercase tracking-wider text-center">
+            <div class="p-3 bg-red-950/30 border border-red-900/50 rounded-sm text-red-400 text-xs font-bold uppercase tracking-wider text-center">
                 {form.error}
             </div>
         {/if}
 
         <div>
-            <label for="email" class="block text-xs font-bold text-gray-700 mb-2 uppercase tracking-wider">Email Akun Anda</label>
+            <label for="email" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Email Akun Anda</label>
             <input 
                 type="email" 
                 id="email" 
                 name="email"
                 bind:value={email} 
                 required 
-                class="block w-full px-4 py-3 bg-gray-50 border border-gray-200 rounded-sm text-gray-900 focus:ring-[#990000] focus:border-[#990000] transition-colors" 
+                class="block w-full px-4 py-3 bg-[#0a0a0a] border border-zinc-800 rounded-sm text-white placeholder-zinc-600 focus:ring-[#990000] focus:border-[#990000] transition-colors" 
                 placeholder="nama@email.com" 
             />
         </div>
@@ -108,7 +108,7 @@
         <button 
             type="submit" 
             disabled={isLoading || cooldownRemaining > 0} 
-            class="w-full py-4 bg-[#111] text-white font-bold text-sm uppercase tracking-widest rounded-sm hover:bg-black transition-colors disabled:opacity-50 flex justify-center items-center shadow-md"
+            class="w-full py-4 bg-[#990000] text-white font-bold text-sm uppercase tracking-widest rounded-sm hover:bg-red-800 transition-colors disabled:opacity-50 flex justify-center items-center shadow-md"
         >
             {#if isLoading}
                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
@@ -127,7 +127,7 @@
     </form>
 
     <div class="mt-8 text-center">
-        <a href="/login" class="text-xs font-bold text-gray-500 hover:text-gray-900 uppercase tracking-wider transition-colors flex items-center justify-center">
+        <a href="/login" class="text-xs font-bold text-zinc-500 hover:text-white uppercase tracking-wider transition-colors flex items-center justify-center">
             <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
             </svg>

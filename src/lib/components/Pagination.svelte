@@ -12,7 +12,7 @@
             type="button" 
             onclick={() => onPageChange(currentPage - 1)}
             disabled={currentPage === 1}
-            class="px-4 py-2 border border-gray-200 bg-white text-xs font-bold uppercase tracking-widest rounded-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-4 py-2 border border-zinc-700 bg-zinc-900 text-xs font-bold uppercase tracking-widest rounded-sm text-gray-300 hover:bg-zinc-800 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
             Prev
         </button>
@@ -22,7 +22,7 @@
                 <button
                     type="button"
                     onclick={() => onPageChange(i + 1)}
-                    class={`w-10 h-10 flex items-center justify-center text-xs font-bold rounded-sm transition-colors ${currentPage === i + 1 ? 'bg-[#111] text-white border border-[#111]' : 'border border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:text-gray-900'}`}
+                    class={`w-10 h-10 flex items-center justify-center text-xs font-bold rounded-sm transition-colors ${currentPage === i + 1 ? 'bg-[#990000] text-white border border-[#990000]' : 'border border-zinc-700 bg-zinc-900 text-gray-300 hover:bg-zinc-800 hover:text-white'}`}
                 >
                     {i + 1}
                 </button>
@@ -33,7 +33,7 @@
             type="button" 
             onclick={() => onPageChange(currentPage + 1)}
             disabled={currentPage === totalPages}
-            class="px-4 py-2 border border-gray-200 bg-white text-xs font-bold uppercase tracking-widest rounded-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+            class="px-4 py-2 border border-zinc-700 bg-zinc-900 text-xs font-bold uppercase tracking-widest rounded-sm text-gray-300 hover:bg-zinc-800 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
         >
             Next
         </button>
