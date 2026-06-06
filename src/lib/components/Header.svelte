@@ -52,17 +52,25 @@
                 {#if !$session.data?.user}
                     <a href="/login" class="p-2 transition-colors {$page.url.pathname === '/login' ? 'text-[#990000]' : 'text-gray-300 hover:text-white'}" title="Login">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
                         </svg>
                     </a>
                 {/if}
 
                 {#if $session.data?.user}
-                    <a href="/profile" class="p-2 flex items-center transition-colors {$page.url.pathname === '/profile' ? 'text-[#990000]' : 'text-gray-300 hover:text-white'}" title="Pengaturan Akun">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                        </svg>
-                    </a>
+                    {#if $session.data.user.role === 'ADMIN' || $session.data.user.role === 'admin'}
+                        <a href="/admin" class="p-2 flex items-center transition-colors text-gray-300 hover:text-white" title="Admin Panel">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                        </a>
+                    {:else}
+                        <a href="/profile" class="p-2 flex items-center transition-colors {$page.url.pathname === '/profile' ? 'text-[#990000]' : 'text-gray-300 hover:text-white'}" title="Pengaturan Akun">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                        </a>
+                    {/if}
                     <button onclick={handleLogout} title="Logout" class="p-2 flex items-center text-gray-300 hover:text-white transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
@@ -102,12 +110,21 @@
                 <a href="/#kontak" class="block px-3 py-2 rounded-md text-sm font-bold uppercase tracking-wider transition-colors text-gray-300 hover:text-white hover:bg-zinc-800">Kontak</a>
                 <a href="/#faq" class="block px-3 py-2 rounded-md text-sm font-bold uppercase tracking-wider transition-colors text-gray-300 hover:text-white hover:bg-zinc-800">FAQ</a>
                 {#if $session.data?.user}
-                    <a href="/profile" class="block px-3 py-2 rounded-md text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-colors {$page.url.pathname === '/profile' ? 'text-[#990000] bg-zinc-900' : 'text-gray-300 hover:text-white hover:bg-zinc-800'}">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
-                        </svg>
-                        Pengaturan Akun
-                    </a>
+                    {#if $session.data.user.role === 'ADMIN' || $session.data.user.role === 'admin'}
+                        <a href="/admin" class="block px-3 py-2 rounded-md text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-colors {$page.url.pathname.startsWith('/admin') ? 'text-[#990000] bg-zinc-900' : 'text-gray-300 hover:text-white hover:bg-zinc-800'}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                            </svg>
+                            Admin Panel
+                        </a>
+                    {:else}
+                        <a href="/profile" class="block px-3 py-2 rounded-md text-sm font-bold uppercase tracking-wider flex items-center gap-2 transition-colors {$page.url.pathname === '/profile' ? 'text-[#990000] bg-zinc-900' : 'text-gray-300 hover:text-white hover:bg-zinc-800'}">
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 6a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0ZM4.501 20.118a7.5 7.5 0 0 1 14.998 0A17.933 17.933 0 0 1 12 21.75c-2.676 0-5.216-.584-7.499-1.632Z" />
+                            </svg>
+                            Pengaturan Akun
+                        </a>
+                    {/if}
                     <button onclick={handleLogout} class="w-full text-left flex items-center gap-2 px-3 py-2 rounded-md text-sm font-bold uppercase tracking-wider transition-colors text-gray-300 hover:text-white hover:bg-zinc-800">
                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />

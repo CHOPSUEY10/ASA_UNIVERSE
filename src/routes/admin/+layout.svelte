@@ -27,7 +27,7 @@
     <aside class="w-64 bg-[#111] border-r border-zinc-800 hidden md:block">
         <div class="h-16 flex items-center px-6 border-b border-zinc-800">
             <a href="/admin" class="text-xl font-bold tracking-tighter text-[#990000]">
-                ASA<span class="text-white">UNIVERSE</span> <span class="text-xs text-zinc-500 font-normal ml-1">ADMIN</span>
+                ASA<span class="text-white">UNIVERSE</span> <p class="text-xs text-zinc-500 font-normal ml-1">ADMIN</p>
             </a>
         </div>
         <nav class="p-4 space-y-1">
@@ -75,7 +75,6 @@
             </div>
             <div class="flex-1"></div>
             <div class="flex items-center gap-4">
-                <span class="text-sm font-medium text-zinc-400">Admin</span>
                 <button onclick={handleLogout} title="Logout" class="text-[#990000] hover:text-red-800 transition-colors flex items-center">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
