@@ -41,18 +41,18 @@
 
 <div class="mb-8">
     <h1 class="text-3xl font-bold text-white tracking-tight">Export Data</h1>
-    <p class="text-gray-400 mt-2">Unduh laporan data sistem dalam format Microsoft Excel.</p>
+    <p class="text-zinc-400 mt-2">Unduh laporan data sistem dalam format Microsoft Excel.</p>
 </div>
 
-<div class="bg-zinc-900 border border-zinc-800 rounded-xl p-6">
+<div class="bg-[#111] border border-zinc-800 rounded-xl p-6">
     <div class="max-w-2xl">
         <h2 class="text-xl font-bold text-white mb-4">Export Produk</h2>
-        <p class="text-gray-400 mb-6 text-sm">
+        <p class="text-zinc-400 mb-6 text-sm">
             Unduh seluruh daftar produk beserta status, stok, harga, dan kategorinya ke dalam file <code class="bg-zinc-800 text-red-400 px-1 py-0.5 rounded">.xlsx</code>.
         </p>
 
         {#if errorMessage}
-            <div class="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-lg flex items-start space-x-3 text-red-500">
+            <div class="mb-6 p-4 bg-[#990000]/10 border border-[#990000]/20 rounded-lg flex items-start space-x-3 text-[#990000]">
                 <svg class="w-5 h-5 mt-0.5 shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/>
                 </svg>
@@ -64,7 +64,7 @@
             type="button" 
             onclick={handleExport}
             disabled={isDownloading}
-            class="inline-flex items-center justify-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            class="inline-flex items-center justify-center px-6 py-3 bg-[#990000] hover:bg-red-700 text-white font-medium rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
             {#if isDownloading}
                 <svg class="animate-spin -ml-1 mr-3 h-5 w-5 text-white" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">

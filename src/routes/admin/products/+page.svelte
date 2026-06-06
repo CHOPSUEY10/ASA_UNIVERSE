@@ -56,9 +56,9 @@
 <div class="mb-8 flex flex-col sm:flex-row justify-between items-start sm:items-center space-y-4 sm:space-y-0">
     <div>
         <h1 class="text-2xl font-bold text-white mb-2">Manajemen Produk</h1>
-        <p class="text-gray-400">Kelola katalog produk ASA Universe.</p>
+        <p class="text-zinc-400">Kelola katalog produk ASA Universe.</p>
     </div>
-    <button onclick={openCreate} class="bg-red-600 hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center">
+    <button onclick={openCreate} class="bg-[#990000] hover:bg-red-700 text-white px-4 py-2 rounded-lg font-medium transition-colors flex items-center">
         <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor">
             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
         </svg>
