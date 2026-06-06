@@ -1,15 +1,38 @@
+<script lang="ts">
+    let { data } = $props();
+</script>
+
 <svelte:head>
     <title>Patch Logo | ASA Universe</title>
-</svelte:head>
-
-<div class="min-h-screen bg-[#0a0a0a] py-12">
+</svelte:head><div class="min-h-screen bg-[#0a0a0a] py-12">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="bg-[#111] p-8 rounded-sm shadow-sm border border-zinc-800">
             <h1 class="text-3xl font-black text-white uppercase tracking-tight mb-6">Patch Logo</h1>
             <p class="text-zinc-400 mb-8">Tambahkan elemen prestisius pada jersey Anda dengan logo emblem/patch eksklusif dari ASA Universe. Pilih jenis material patch (misal: DTF, Woven, atau Bordir) sesuai dengan keinginan Anda.</p>
             
-            <div class="flex justify-center bg-white p-4 rounded-sm border border-zinc-800">
-                <img src="/etc/patch_logo.png" alt="Patch Logo" class="max-w-full h-auto rounded-sm" />
+            <div class="flex justify-center bg-black rounded-sm border border-zinc-800 overflow-hidden">
+                <img src="/etc/patch_logo.png" alt="Patch Logo" class="w-full h-auto object-contain" />
+            </div>
+
+            <div class="mt-10 bg-[#111] border border-zinc-800 rounded-sm overflow-hidden">
+                <table class="w-full text-left text-sm">
+                    <thead class="bg-zinc-900 border-b border-zinc-800">
+                        <tr>
+                            <th class="px-6 py-4 font-bold text-white uppercase tracking-wider">Jenis Patch</th>
+                            <th class="px-6 py-4 font-bold text-white uppercase tracking-wider text-right">Harga (Rp)</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-zinc-800">
+                        {#each data.patches as patch}
+                            <tr class="hover:bg-zinc-900/50 transition-colors">
+                                <td class="px-6 py-4 font-bold text-[#990000]">{patch.nama}</td>
+                                <td class="px-6 py-4 text-zinc-300 text-right">
+                                    {patch.harga > 0 ? '+ ' + new Intl.NumberFormat('id-ID').format(patch.harga) : 'Gratis'}
+                                </td>
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
             </div>
 
             <div class="mt-10">

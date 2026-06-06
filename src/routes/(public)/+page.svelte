@@ -187,17 +187,7 @@
             <p class="text-gray-400 text-sm mt-2">Everything you need to know about ASA UNIVERSE products, processes, and<br/>performance gear. High-speed support for high-performance athletes.</p>
         </div>
 
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
-            <div class="md:col-span-1">
-                <nav class="flex flex-col space-y-1">
-                    <button class="text-left px-4 py-3 bg-zinc-900 border-l-4 border-[#990000] text-white font-bold text-sm">Ordering & Payments</button>
-                    <button class="text-left px-4 py-3 text-gray-400 hover:bg-zinc-900 hover:text-white font-medium text-sm transition-colors">Shipping & Delivery</button>
-                    <button class="text-left px-4 py-3 text-gray-400 hover:bg-zinc-900 hover:text-white font-medium text-sm transition-colors">Returns & Exchanges</button>
-                    <button class="text-left px-4 py-3 text-gray-400 hover:bg-zinc-900 hover:text-white font-medium text-sm transition-colors">Customization</button>
-                </nav>
-            </div>
-            
-            <div class="md:col-span-3 space-y-8">
+        <div class="max-w-4xl mx-auto space-y-8">
                 <!-- Ordering & Payments -->
                 <div>
                     <h3 class="text-sm font-bold text-white uppercase tracking-wider mb-4 flex items-center gap-2">
@@ -279,7 +269,6 @@
                         </a>
                     </div>
                 </div>
-            </div>
         </div>
     </div>
 </section>

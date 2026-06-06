@@ -27,6 +27,7 @@
     <aside class="w-64 bg-[#111] border-r border-zinc-800 hidden md:block">
         <div class="h-16 flex items-center px-6 border-b border-zinc-800">
             <a href="/admin" class="text-xl font-bold tracking-tighter text-[#990000]">
+                <img src="/icon/icon.png" alt="ASA Universe Logo" class="h-8 w-auto mr-2">
                 ASA<span class="text-white">UNIVERSE</span> <p class="text-xs text-zinc-500 font-normal ml-1">ADMIN</p>
             </a>
         </div>
