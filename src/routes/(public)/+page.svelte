@@ -124,7 +124,7 @@
 </section>
 
 <!-- Section 3: How It Works -->
-<section class="py-20 bg-[#070707] border-t border-brand-border relative overflow-hidden">
+<section id="cara-order" class="py-20 bg-[#070707] border-t border-brand-border relative overflow-hidden">
     <!-- Spotlight background element -->
     <div class="absolute bottom-0 right-0 w-[600px] h-[300px] bg-brand-primary/5 rounded-full blur-[120px] pointer-events-none"></div>
 
@@ -422,7 +422,7 @@
                         <p class="text-xs text-brand-muted mt-1 font-medium">Tim desainer dan dukungan kami siap membantu menyusun pesanan jersey tim Anda.</p>
                     </div>
                     <div class="relative z-10 w-full sm:w-auto">
-                        <a href="mailto:fadliaidin16@gmail.com" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-brand-primary bg-brand-primary px-6 py-3.5 text-xs font-black text-white uppercase hover:bg-red-800 transition-colors tracking-widest rounded-sm">
+                        <a href="mailto:admin@asauniverse.com" class="w-full sm:w-auto inline-flex items-center justify-center gap-2 border border-brand-primary bg-brand-primary px-6 py-3.5 text-xs font-black text-white uppercase hover:bg-red-800 transition-colors tracking-widest rounded-sm">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                             </svg>
