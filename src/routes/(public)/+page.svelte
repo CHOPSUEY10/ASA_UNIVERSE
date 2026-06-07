@@ -261,7 +261,7 @@
                         <p class="text-sm text-gray-400">Our athlete support specialists are available 24/7 to assist you.</p>
                     </div>
                     <div class="relative z-10">
-                        <a href="#kontak" class="inline-flex items-center gap-2 border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm font-bold text-white uppercase hover:bg-zinc-800 transition-colors">
+                        <a href="https://mail.google.com/mail/u/0/#inbox?compose=new" class="inline-flex items-center gap-2 border border-zinc-700 bg-zinc-900 px-4 py-2 text-sm font-bold text-white uppercase hover:bg-zinc-800 transition-colors">
                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-4 h-4">
                                 <path stroke-linecap="round" stroke-linejoin="round" d="M21.75 6.75v10.5a2.25 2.25 0 0 1-2.25 2.25h-15a2.25 2.25 0 0 1-2.25-2.25V6.75m19.5 0A2.25 2.25 0 0 0 19.5 4.5h-15a2.25 2.25 0 0 0-2.25 2.25m19.5 0v.243a2.25 2.25 0 0 1-1.07 1.916l-7.5 4.615a2.25 2.25 0 0 1-2.36 0L3.32 8.91a2.25 2.25 0 0 1-1.07-1.916V6.75" />
                             </svg>

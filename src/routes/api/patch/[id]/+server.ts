@@ -3,7 +3,7 @@ import { supabaseAdmin } from '$lib/server/supabase';
 import { prisma } from '$lib/server/prisma';
 
 export const GET: RequestHandler = async ({ params }) => {
-    const patchId = parseInt(params.id);
+    const patchId = parseInt(params.id as string);
 
     if (isNaN(patchId)) {
         return new Response(JSON.stringify({ error: 'Invalid ID' }), { status: 400 });
@@ -31,8 +31,8 @@ export const GET: RequestHandler = async ({ params }) => {
 
         // Cari file yang namanya mengandung nama patch (case-insensitive)
         const matchName = patchData.nama.toLowerCase();
-        const matchedFiles = (data || []).filter(file => 
-            !file.name.startsWith('.') && 
+        const matchedFiles = (data || []).filter(file =>
+            !file.name.startsWith('.') &&
             file.name.toLowerCase().includes(matchName)
         );
 
