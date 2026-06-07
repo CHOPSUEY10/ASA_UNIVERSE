@@ -35,7 +35,7 @@
 </script>
 
 <div class="mb-6">
-    <h3 class="text-xs font-bold text-gray-400 mb-4 uppercase tracking-wider">Kerah Model</h3>
+    <h3 class="text-xs font-black text-gray-400 mb-4 uppercase tracking-wider">COLLAR STYLES</h3>
     
     <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3">
         {#each kerahs as kerah}
@@ -44,12 +44,12 @@
                 onclick={() => onSelect(kerah.id)}
                 class={`relative group overflow-hidden rounded-sm border transition-all duration-200 ${
                     selectedId === kerah.id 
-                    ? 'border-[#990000] shadow-sm shadow-[#990000]/20' 
-                    : 'border-zinc-700 hover:border-zinc-500'
+                    ? 'border-brand-accent shadow-sm shadow-brand-accent/20 bg-brand-surface' 
+                    : 'border-brand-border bg-brand-bg hover:border-brand-primary'
                 }`}
             >
                 <!-- Image Container -->
-                <div class="aspect-square bg-zinc-900 overflow-hidden">
+                <div class="aspect-square bg-brand-surface overflow-hidden flex items-center justify-center">
                     {#if kerahImages[kerah.id]}
                         <img 
                             src={kerahImages[kerah.id]} 
@@ -69,14 +69,16 @@
 
                 <!-- Overlay on hover/select -->
                 {#if selectedId === kerah.id}
-                    <div class="absolute inset-0 border-2 border-[#990000] pointer-events-none"></div>
+                    <div class="absolute inset-0 border-2 border-brand-accent pointer-events-none"></div>
                 {/if}
 
                 <!-- Label -->
-                <div class="bg-zinc-950 px-2 py-2 text-center border-t border-zinc-800">
-                    <p class="text-[10px] font-bold text-white truncate uppercase tracking-widest">{kerah.nama}</p>
+                <div class="bg-brand-card px-2 py-2.5 text-center border-t border-brand-border">
+                    <p class="text-[10px] font-black text-white truncate uppercase tracking-widest">{kerah.nama}</p>
                     {#if kerah.harga}
-                        <p class="text-[10px] text-gray-400 mt-1">Rp {kerah.harga.toLocaleString('id-ID')}</p>
+                        <p class="text-[10px] text-brand-accent mt-1 font-bold">Rp {kerah.harga.toLocaleString('id-ID')}</p>
+                    {:else}
+                        <p class="text-[10px] text-brand-muted mt-1 font-bold">Free</p>
                     {/if}
                 </div>
             </button>
