@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { currencyFormatter } from '$lib/utils';
+
     let { columns = [], data = [], onEdit = () => {}, onDelete = () => {} }: {
         columns?: { key: string; label: string; type?: 'currency' | 'boolean' | 'date' | 'action' }[];
         data?: any[];
@@ -30,7 +32,7 @@
                                 </div>
                             {:else if column.type === 'currency'}
                                 <div class="text-sm text-gray-300">
-                                    {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(row[column.key])}
+                                    {currencyFormatter.format(row[column.key])}
                                 </div>
                             {:else if column.type === 'boolean'}
                                 <span class={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${row[column.key] ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800'}`}>

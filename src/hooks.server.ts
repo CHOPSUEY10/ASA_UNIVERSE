@@ -37,6 +37,34 @@ export async function handle({ event, resolve }) {
 			}
 		}
 
+		// Protect Admin API Routes
+		const isAdminApiRoute = pathname.startsWith('/api/admin');
+		if (isAdminApiRoute) {
+			if (!event.locals.user) {
+				return new Response(JSON.stringify({ error: 'Unauthorized' }), { status: 401, headers: { 'Content-Type': 'application/json' } });
+			}
+			if (event.locals.user.role !== 'admin' && event.locals.user.role !== 'ADMIN') {
+				return new Response(JSON.stringify({ error: 'Forbidden' }), { status: 403, headers: { 'Content-Type': 'application/json' } });
+			}
+		}
+
+		// Helper for non-blocking visitor logging
+		const logVisitor = (path: string, ip: string, ua: string | null) => {
+			const promise = prisma.visitorLog.create({
+				data: {
+					path,
+					ipAddress: ip,
+					userAgent: ua
+				}
+			}).catch(err => {
+				console.error('Error logging visitor background:', err);
+			});
+
+			if (event.platform?.context?.waitUntil) {
+				event.platform.context.waitUntil(promise);
+			}
+		};
+
 		// Track user visit during login, register, callback, or accessing /login
 		const isLoginOrRegister = 
 			(event.request.method === 'POST' && (
@@ -59,19 +87,7 @@ export async function handle({ event, resolve }) {
 							'127.0.0.1';
 			}
 			const userAgent = event.request.headers.get('user-agent');
-
-			// Use await for logging to ensure it completes before serverless process halts
-			try {
-				await prisma.visitorLog.create({
-					data: {
-						path: pathname,
-						ipAddress,
-						userAgent
-					}
-				});
-			} catch (err) {
-				console.error('Error logging login/register visitor:', err);
-			}
+			logVisitor(pathname, ipAddress, userAgent);
 		}
 
 		// General Visitor Tracking
@@ -96,18 +112,7 @@ export async function handle({ event, resolve }) {
 								'127.0.0.1';
 				}
 				const userAgent = event.request.headers.get('user-agent');
-
-				try {
-					await prisma.visitorLog.create({
-						data: {
-							path: pathname,
-							ipAddress,
-							userAgent
-						}
-					});
-				} catch (err) {
-					console.error('Error logging general visitor:', err);
-				}
+				logVisitor(pathname, ipAddress, userAgent);
 			}
 		}
 	}

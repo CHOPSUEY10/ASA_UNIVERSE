@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { currencyFormatter } from '$lib/utils';
+
     let { product }: {
         product: {
             id: number;
@@ -38,7 +40,7 @@
         <div class="flex justify-between items-start mb-2">
             <h3 class="text-sm font-black text-white uppercase tracking-tight group-hover:text-brand-accent transition-colors line-clamp-2 pr-2">{product.name}</h3>
             <p class="text-brand-accent font-black text-sm whitespace-nowrap">
-                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(product.price)}
+                {currencyFormatter.format(product.price)}
             </p>
         </div>
         <p class="text-brand-muted text-xs mb-4 line-clamp-2 leading-relaxed">

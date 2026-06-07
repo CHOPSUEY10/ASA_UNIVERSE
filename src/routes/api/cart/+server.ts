@@ -143,7 +143,10 @@ export const POST: RequestHandler = async ({ request, locals }) => {
         }
 
         // Recalculate total price for the CART order
-        const allItems = await prisma.orderItem.findMany({ where: { orderId: order.id } });
+        const allItems = await prisma.orderItem.findMany({
+            where: { orderId: order.id },
+            select: { price: true, quantity: true }
+        });
         const newTotal = allItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
         await prisma.order.update({
             where: { id: order.id },
@@ -192,7 +195,10 @@ export const DELETE: RequestHandler = async ({ request, locals }) => {
         });
 
         // Recalculate total price
-        const remainingItems = await prisma.orderItem.findMany({ where: { orderId: orderItem.orderId } });
+        const remainingItems = await prisma.orderItem.findMany({
+            where: { orderId: orderItem.orderId },
+            select: { price: true, quantity: true }
+        });
         const newTotal = remainingItems.reduce((acc, curr) => acc + (curr.price * curr.quantity), 0);
         await prisma.order.update({
             where: { id: orderItem.orderId },

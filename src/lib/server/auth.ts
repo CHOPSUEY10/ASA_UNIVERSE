@@ -19,11 +19,19 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+if (process.env.NODE_ENV === 'production' && !env.BETTER_AUTH_SECRET) {
+    throw new Error('BETTER_AUTH_SECRET must be set in production!');
+}
+
 export const auth = betterAuth({
 	baseURL: env.BETTER_AUTH_URL || env.ORIGIN || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : (env.VERCEL_URL ? `https://${env.VERCEL_URL}` : "http://localhost:5173")),
 	trustedOrigins: [env.ORIGIN || "http://localhost:5173", "https://asa-universe.vercel.app"],
 	secret: env.BETTER_AUTH_SECRET || "fallback_secret_please_change_in_production_to_avoid_this_error_123456",
 	database: prismaAdapter(prisma, { provider : 'postgresql'}),
+	session: {
+		expiresIn: 60 * 60 * 24 * 7, // 7 days
+		updateAge: 60 * 60 * 24     // Throttles session DB writes to once per 24 hours
+	},
 	user: {
 		additionalFields: {
 			role: {

@@ -92,79 +92,155 @@ async function processNewImages(formData: FormData) {
     return urls;
 }
 
+function extractFilenameFromUrl(url: string) {
+    try {
+        const parts = url.split('/');
+        return parts[parts.length - 1];
+    } catch {
+        return null;
+    }
+}
+
 export const actions: Actions = {
-    create: async ({ request, fetch }) => {
+    create: async ({ request }) => {
         const formData = await request.formData();
         const data = Object.fromEntries(formData);
         
-        const images = await processNewImages(formData);
+        try {
+            const images = await processNewImages(formData);
+            const price = Number(data.price);
+            const stock = Number(data.stock);
+            const kainId = Number(data.kainId);
+            const name = String(data.name);
+            const slug = String(data.slug);
+            const description = String(data.description);
+            const isFeatured = data.isFeatured === 'true';
 
-        const payload = {
-            ...data,
-            price: Number(data.price),
-            stock: Number(data.stock),
-            kainId: Number(data.kainId),
-            isActive: data.isActive === 'true',
-            isFeatured: data.isFeatured === 'true',
-            images
-        };
+            await prisma.product.create({
+                data: {
+                    name,
+                    slug,
+                    description,
+                    price,
+                    stock,
+                    isFeatured,
+                    isActive: true,
+                    kainId,
+                    images: {
+                        create: images.map((url: string) => ({ url }))
+                    }
+                }
+            });
 
-        const res = await fetch('/api/products', {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' }
-        });
-
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            return fail(res.status, { error: err.message || 'Gagal membuat produk' });
+            return { success: true, message: 'Produk berhasil dibuat' };
+        } catch (error: any) {
+            console.error('Error creating product in action:', error);
+            return fail(500, { error: error.message || 'Gagal membuat produk' });
         }
-        return { success: true, message: 'Produk berhasil dibuat' };
     },
-    update: async ({ request, fetch }) => {
+    update: async ({ request }) => {
         const formData = await request.formData();
         const data = Object.fromEntries(formData);
         
-        const newImagesUrls = await processNewImages(formData);
-        const keptImageIds = formData.getAll('keptImages').map(id => Number(id));
+        try {
+            const productId = Number(data.id);
+            if (!productId) return fail(400, { error: 'ID tidak valid' });
 
-        const payload = {
-            ...data,
-            price: Number(data.price),
-            stock: Number(data.stock),
-            kainId: Number(data.kainId),
-            isActive: data.isActive === 'true',
-            isFeatured: data.isFeatured === 'true',
-            newImagesUrls,
-            keptImageIds
-        };
+            const newImagesUrls = await processNewImages(formData);
+            const keptImageIds = formData.getAll('keptImages').map(id => Number(id));
 
-        const res = await fetch(`/api/products/${data.id}`, {
-            method: 'PATCH',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' }
-        });
+            // 1. Dapatkan gambar yang akan dihapus dari database
+            const imagesToDelete = await prisma.productImage.findMany({
+                where: {
+                    productId: productId,
+                    id: { notIn: keptImageIds }
+                }
+            });
 
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            return fail(res.status, { error: err.message || 'Gagal memperbarui produk' });
+            // 2. Hapus file fisik dari Supabase Storage
+            if (imagesToDelete.length > 0) {
+                const filenames = imagesToDelete
+                    .map(img => extractFilenameFromUrl(img.url))
+                    .filter(Boolean) as string[];
+
+                if (filenames.length > 0) {
+                    const { error } = await supabaseAdmin.storage
+                        .from('products')
+                        .remove(filenames);
+                    
+                    if (error) {
+                        console.error("Gagal menghapus gambar dari Supabase:", error);
+                    }
+                }
+            }
+
+            await prisma.product.update({
+                where: {
+                    id: productId
+                },
+                data: {
+                    name: String(data.name),
+                    slug: String(data.slug),
+                    price: Number(data.price),
+                    stock: Number(data.stock),
+                    isActive: data.isActive === 'true',
+                    kainId: Number(data.kainId),
+                    images: {
+                        deleteMany: {
+                            id: { notIn: keptImageIds }
+                        },
+                        create: newImagesUrls.map((url: string) => ({ url }))
+                    }
+                }
+            });
+
+            return { success: true, message: 'Produk berhasil diperbarui' };
+        } catch (error: any) {
+            console.error('Error updating product in action:', error);
+            return fail(500, { error: error.message || 'Gagal memperbarui produk' });
         }
-        return { success: true, message: 'Produk berhasil diperbarui' };
     },
-    delete: async ({ request, fetch }) => {
+    delete: async ({ request }) => {
         const formData = await request.formData();
         const id = formData.get('id');
 
         if (!id) return fail(400, { error: 'ID tidak valid' });
+        const productId = Number(id);
 
-        const res = await fetch(`/api/products/${id}`, {
-            method: 'DELETE'
-        });
+        try {
+            // 1. Dapatkan semua gambar produk ini
+            const imagesToDelete = await prisma.productImage.findMany({
+                where: { productId }
+            });
 
-        if (!res.ok) {
-            const err = await res.json().catch(() => ({}));
-            return fail(res.status, { error: err.message || 'Gagal menghapus produk' });
+            // 2. Hapus file fisik dari Supabase Storage
+            if (imagesToDelete.length > 0) {
+                const filenames = imagesToDelete
+                    .map(img => extractFilenameFromUrl(img.url))
+                    .filter(Boolean) as string[];
+
+                if (filenames.length > 0) {
+                    const { error } = await supabaseAdmin.storage
+                        .from('products')
+                        .remove(filenames);
+                    
+                    if (error) {
+                        console.error("Gagal menghapus gambar dari Supabase:", error);
+                    }
+                }
+            }
+
+            // 3. Hapus produk dari database (cascade delete akan menghapus baris ProductImage otomatis)
+            await prisma.product.delete({
+                where: {
+                    id: productId
+                }
+            });
+
+            return { success: true, message: 'Produk berhasil dihapus' };
+        } catch (error: any) {
+            console.error('Error deleting product in action:', error);
+            return fail(500, { error: error.message || 'Gagal menghapus produk' });
         }
-        return { success: true, message: 'Produk berhasil dihapus' };
     }
 };

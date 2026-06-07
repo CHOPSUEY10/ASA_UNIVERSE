@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { numberFormatter } from '$lib/utils';
+
     let { stats = { total: 0, daily: 0, monthly: 0 } }: {
         stats?: {
             total: number;
@@ -18,7 +20,7 @@
         </div>
         <div>
             <p class="text-sm font-medium text-zinc-400">Pengunjung Hari Ini</p>
-            <p class="text-2xl font-bold text-white">{new Intl.NumberFormat('id-ID').format(stats.daily)}</p>
+            <p class="text-2xl font-bold text-white">{numberFormatter.format(stats.daily)}</p>
         </div>
     </div>
 
@@ -31,7 +33,7 @@
         </div>
         <div>
             <p class="text-sm font-medium text-zinc-400">Pengunjung Bulan Ini</p>
-            <p class="text-2xl font-bold text-white">{new Intl.NumberFormat('id-ID').format(stats.monthly)}</p>
+            <p class="text-2xl font-bold text-white">{numberFormatter.format(stats.monthly)}</p>
         </div>
     </div>
 
@@ -44,7 +46,7 @@
         </div>
         <div>
             <p class="text-sm font-medium text-zinc-400">Total Pengunjung</p>
-            <p class="text-2xl font-bold text-white">{new Intl.NumberFormat('id-ID').format(stats.total)}</p>
+            <p class="text-2xl font-bold text-white">{numberFormatter.format(stats.total)}</p>
         </div>
     </div>
 </div>

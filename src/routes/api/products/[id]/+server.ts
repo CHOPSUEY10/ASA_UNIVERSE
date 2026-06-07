@@ -13,7 +13,10 @@ function extractFilenameFromUrl(url: string) {
     }
 }
 
-export const PATCH: RequestHandler = async ({ params, request }) => {
+export const PATCH: RequestHandler = async ({ params, request, locals }) => {
+    if (!locals.session || (locals.user?.role !== 'admin' && locals.user?.role !== 'ADMIN')) {
+        return json({ message: 'Forbidden' }, { status: 403 });
+    }
 
     try {
         const body = await request.json();
@@ -71,14 +74,18 @@ export const PATCH: RequestHandler = async ({ params, request }) => {
         });
 
     } catch (e) {
-        console.error(e);
+        console.error('Failed to update product:', e);
         return json({
-            message: 'Failed update products',
+            message: 'Gagal memperbarui produk',
         }, { status: 500 });
     }
 }
 
-export const DELETE: RequestHandler = async ({ params }) => {
+export const DELETE: RequestHandler = async ({ params, locals }) => {
+    if (!locals.session || (locals.user?.role !== 'admin' && locals.user?.role !== 'ADMIN')) {
+        return json({ message: 'Forbidden' }, { status: 403 });
+    }
+
     try {
         const productId = Number(params.id);
 
@@ -115,9 +122,9 @@ export const DELETE: RequestHandler = async ({ params }) => {
             message: 'product berhasil dihapus'
         });
     } catch (e) {
-        console.error(e);
+        console.error('Failed to delete product:', e);
         return json({
-            message: 'Failed delete product',
+            message: 'Gagal menghapus produk',
         }, { status: 500 });
     }
 }

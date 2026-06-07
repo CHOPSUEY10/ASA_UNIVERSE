@@ -1,14 +1,16 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
+    import { goto } from '$app/navigation';
+    import Pagination from '$lib/components/Pagination.svelte';
+    import { currencyFormatter } from '$lib/utils';
 
     let { data }: { data: import('./$types').PageData } = $props();
 
-    // Format IDR
-    const formatter = new Intl.NumberFormat('id-ID', {
-        style: 'currency',
-        currency: 'IDR',
-        minimumFractionDigits: 0
-    });
+    function handlePageChange(page: number) {
+        const url = new URL(window.location.href);
+        url.searchParams.set('page', page.toString());
+        goto(url.toString(), { keepFocus: true });
+    }
 </script>
 
 <svelte:head>
@@ -57,7 +59,7 @@
                                 </span>
                             </td>
                             <td class="px-6 py-4 font-medium whitespace-nowrap">
-                                {formatter.format(order.totalPrice)}
+                                {currencyFormatter.format(order.totalPrice)}
                             </td>
                             <td class="px-6 py-4">
                                 <div class="space-y-3 min-w-[300px]">
@@ -92,6 +94,14 @@
                     {/each}
                 </tbody>
             </table>
+        </div>
+        
+        <div class="p-6 border-t border-zinc-800 bg-[#111]">
+            <Pagination 
+                currentPage={data.pagination.page} 
+                totalPages={data.pagination.totalPages} 
+                onPageChange={handlePageChange} 
+            />
         </div>
     {/if}
 </div>

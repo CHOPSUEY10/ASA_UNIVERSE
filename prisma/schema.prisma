@@ -120,6 +120,7 @@ model Product {
   updatedAt  DateTime  @updatedAt
 
   @@index([slug])
+  @@index([kainId])
 }
 
 model ProductImage {
@@ -152,6 +153,7 @@ model ProductReview {
 
   @@unique([productId, userId])
   @@index([productId])
+  @@index([userId])
 }
 
 model Order {
@@ -171,6 +173,8 @@ model Order {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@index([userId])
 }
 
 enum OrderStatus {

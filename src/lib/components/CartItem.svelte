@@ -1,5 +1,6 @@
 <script lang="ts">
     import { cart, type CartItem } from '$lib/stores/cart';
+    import { currencyFormatter } from '$lib/utils';
     
     let { item }: { item: CartItem } = $props();
 
@@ -35,7 +36,7 @@
                 <h3>
                     <a href={`/products/${item.productId}`} class="hover:text-brand-accent transition-colors">{item.name}</a>
                 </h3>
-                <p class="ml-4 text-brand-accent">{new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(item.price * item.quantity)}</p>
+                <p class="ml-4 text-brand-accent">{currencyFormatter.format(item.price * item.quantity)}</p>
             </div>
             <div class="mt-2 text-xs font-bold text-brand-muted space-y-1">
                 {#if item.variants.designFileUrl}

@@ -1,7 +1,10 @@
 import { prisma } from '$lib/server/prisma';
 import type { PageServerLoad } from './$types';
 
-export const load: PageServerLoad = async ({ url }) => {
+export const load: PageServerLoad = async ({ url, setHeaders }) => {
+    setHeaders({
+        'cache-control': 'public, max-age=10, s-maxage=10, stale-while-revalidate=10'
+    });
     const page = Number(url.searchParams.get('page')) || 1;
     const limit = 12;
     const skip = (page - 1) * limit;

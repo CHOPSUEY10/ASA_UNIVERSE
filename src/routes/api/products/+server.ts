@@ -35,7 +35,10 @@ export const GET: RequestHandler = async () => {
 }
 
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+    if (!locals.session || (locals.user?.role !== 'admin' && locals.user?.role !== 'ADMIN')) {
+        return json({ message: 'Forbidden' }, { status: 403 });
+    }
 
     try {
         const body = await request.json();
@@ -53,7 +56,7 @@ export const POST: RequestHandler = async ({ request }) => {
                     create: (body.images || []).map((url: string) => ({ url }))
                 }
             }
-        })
+        });
 
         return json(
             {
@@ -63,18 +66,13 @@ export const POST: RequestHandler = async ({ request }) => {
             {
                 status: 201
             }
-
         );
 
     } catch (error) {
-        console.error(error);
+        console.error('Failed to create product:', error);
         return json({
-            message: 'Failed create products',
-
-        },
-            {
-                status: 500
-            })
+            message: 'Gagal membuat produk'
+        }, { status: 500 });
     }
 }
 

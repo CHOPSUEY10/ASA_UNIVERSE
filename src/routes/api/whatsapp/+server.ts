@@ -21,15 +21,17 @@ export const GET: RequestHandler = async () => {
         console.error('Error fetching contact information:', error);
         return json(
             {
-                message: 'Failed to fetch contact information',
-                error: error instanceof Error ? error.message : String(error)
+                message: 'Gagal mengambil informasi kontak'
             },
             { status: 500 }
         );
     }
 };
 
-export const POST: RequestHandler = async ({ request }) => {
+export const POST: RequestHandler = async ({ request, locals }) => {
+    if (!locals.session || (locals.user?.role !== 'admin' && locals.user?.role !== 'ADMIN')) {
+        return json({ message: 'Forbidden' }, { status: 403 });
+    }
     try {
         const body = await request.json();
         const { whatsapp, instagram, tiktok, address, googleMapsUrl } = body;
@@ -81,8 +83,7 @@ export const POST: RequestHandler = async ({ request }) => {
         console.error('Error updating contact information:', error);
         return json(
             {
-                message: 'Failed to save contact information',
-                error: error instanceof Error ? error.message : String(error)
+                message: 'Gagal menyimpan informasi kontak'
             },
             { status: 500 }
         );
