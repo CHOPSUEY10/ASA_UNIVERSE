@@ -68,16 +68,16 @@
 
     <!-- Main Content -->
     <main class="flex-1 flex flex-col min-w-0 overflow-hidden">
-        <header class="h-16 bg-[#111] border-b border-zinc-800 flex items-center justify-between px-6">
+        <header class="h-16 bg-[#111] border-b border-zinc-800 flex items-center justify-between px-4 md:px-6">
             <div class="md:hidden">
-                <a href="/admin" class="text-xl font-bold tracking-tighter text-[#990000]">
+                <a href="/admin" class="text-lg font-bold tracking-tighter text-[#990000]">
                     ASA<span class="text-white">UNIVERSE</span>
                 </a>
             </div>
             <div class="flex-1"></div>
-            <div class="flex items-center gap-4">
-                <button onclick={handleLogout} title="Logout" class="text-[#990000] hover:text-red-800 transition-colors flex items-center">
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-5 h-5">
+            <div class="flex items-center gap-2 md:gap-4">
+                <button onclick={handleLogout} title="Logout" class="p-1 text-[#990000] hover:text-red-800 transition-colors flex items-center">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-4 h-4 md:w-5 md:h-5">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M15.75 9V5.25A2.25 2.25 0 0 0 13.5 3h-6a2.25 2.25 0 0 0-2.25 2.25v13.5A2.25 2.25 0 0 0 7.5 21h6a2.25 2.25 0 0 0 2.25-2.25V15m3 0 3-3m0 0-3-3m3 3H9" />
                     </svg>
                 </button>
