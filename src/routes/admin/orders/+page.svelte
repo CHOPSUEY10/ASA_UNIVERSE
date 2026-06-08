@@ -1,15 +1,47 @@
 <script lang="ts">
     import { enhance } from '$app/forms';
-    import { goto } from '$app/navigation';
+    import { goto, invalidateAll } from '$app/navigation';
     import Pagination from '$lib/components/Pagination.svelte';
     import { currencyFormatter } from '$lib/utils';
+    import { toast } from '$lib/stores/toast';
 
     let { data }: { data: import('./$types').PageData } = $props();
+    let updatingOrderIds = $state<Record<string, boolean>>({});
 
     function handlePageChange(page: number) {
         const url = new URL(window.location.href);
         url.searchParams.set('page', page.toString());
         goto(url.toString(), { keepFocus: true });
+    }
+
+    async function handleStatusChange(orderId: string, newStatus: string) {
+        updatingOrderIds = { ...updatingOrderIds, [orderId]: true };
+        try {
+            const res = await fetch(`/api/orders/${orderId}`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ status: newStatus })
+            });
+
+            const result = await res.json();
+
+            if (!res.ok) {
+                toast.add(result.message || 'Gagal memperbarui status', 'error');
+                await invalidateAll();
+                return;
+            }
+
+            toast.add('Status pesanan berhasil diperbarui', 'success');
+            await invalidateAll();
+        } catch (e) {
+            console.error(e);
+            toast.add('Gagal menghubungkan ke server', 'error');
+            await invalidateAll();
+        } finally {
+            updatingOrderIds = { ...updatingOrderIds, [orderId]: false };
+        }
     }
 </script>
 
@@ -50,13 +82,21 @@
                                 <div class="text-white">{order.customerName || 'Guest'}</div>
                                 <div class="text-xs text-zinc-500">{order.email || '-'}</div>
                             </td>
-                            <td class="px-6 py-4 whitespace-nowrap">
-                                <span class="px-2.5 py-1 rounded-full text-xs font-medium border
-                                    {order.status === 'PENDING' ? 'bg-zinc-800 text-yellow-500 border-yellow-500/20' : 
-                                     order.status === 'CONFIRMED' ? 'bg-green-500/10 text-zinc-300 border-[#990000]/20' : 
-                                     'bg-[#990000]/10 text-[#990000] border-[#990000]/20'}">
-                                    {order.status}
-                                </span>
+                            <td class="px-6 py-4 whitespace-nowrap text-zinc-300">
+                                <select 
+                                    value={order.status} 
+                                    onchange={(e) => handleStatusChange(order.id, e.currentTarget.value)}
+                                    disabled={updatingOrderIds[order.id]}
+                                    class="px-2.5 py-1 rounded-full text-xs font-bold border bg-[#0a0a0a] cursor-pointer focus:outline-none transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed {
+                                        order.status === 'PENDING' ? 'text-yellow-500 border-yellow-500/30 focus:border-yellow-500 bg-yellow-500/5' : 
+                                        order.status === 'CONFIRMED' ? 'text-green-400 border-green-500/30 focus:border-green-500 bg-green-500/5' : 
+                                        'text-red-500 border-red-500/30 focus:border-red-500 bg-red-500/5'
+                                    }"
+                                >
+                                    <option value="PENDING" class="bg-[#111] text-zinc-300">PENDING</option>
+                                    <option value="CONFIRMED" class="bg-[#111] text-zinc-300">CONFIRMED</option>
+                                    <option value="CANCELLED" class="bg-[#111] text-zinc-300">CANCELLED</option>
+                                </select>
                             </td>
                             <td class="px-6 py-4 font-medium whitespace-nowrap">
                                 {currencyFormatter.format(order.totalPrice)}
