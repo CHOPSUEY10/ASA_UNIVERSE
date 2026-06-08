@@ -9,6 +9,7 @@
             price: number;
             image?: string;
             categoryId?: number;
+            description?: string | null;
         }
     } = $props();
 </script>
@@ -44,7 +45,11 @@
             </p>
         </div>
         <p class="text-brand-muted text-xs mb-4 line-clamp-2 leading-relaxed">
-            Premium custom jersey for peak performance. Engineered for athletes chasing greatness.
+            {#if product.description}
+                {product.description.split(';').map(item => item.trim()).filter(Boolean).join(' • ')}
+            {:else}
+                Premium custom jersey for peak performance. Engineered for athletes chasing greatness.
+            {/if}
         </p>
 
         <div class="flex justify-between items-center">

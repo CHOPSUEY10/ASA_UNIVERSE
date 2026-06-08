@@ -188,7 +188,17 @@
                 <p class="text-2xl font-black text-brand-accent mb-6">{formatter.format(product.price)}</p>
 
                 <div class="prose prose-invert max-w-none mb-10 text-brand-muted text-sm leading-relaxed">
-                    <p>{product.description}</p>
+                    {#if product.description}
+                        {#if product.description.includes(';')}
+                            <ul class="list-disc pl-5 space-y-1">
+                                {#each product.description.split(';').map(item => item.trim()).filter(Boolean) as bullet}
+                                    <li>{bullet}</li>
+                                {/each}
+                            </ul>
+                        {:else}
+                            <p>{product.description}</p>
+                        {/if}
+                    {/if}
                 </div>
 
                 <div class="space-y-8 bg-brand-card border border-brand-border shadow-sm p-8 rounded-sm mb-8">
