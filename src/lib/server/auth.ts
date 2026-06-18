@@ -5,6 +5,7 @@ import { sveltekitCookies } from 'better-auth/svelte-kit';
 import { env } from '$env/dynamic/private';
 import { getRequestEvent } from '$app/server';
 import nodemailer from 'nodemailer';
+import { dev } from '$app/environment';
 
 import { emailOTP } from "better-auth/plugins";
 
@@ -24,8 +25,16 @@ if (process.env.NODE_ENV === 'production' && !env.BETTER_AUTH_SECRET) {
 }
 
 export const auth = betterAuth({
-	baseURL: env.BETTER_AUTH_URL || env.ORIGIN || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : (env.VERCEL_URL ? `https://${env.VERCEL_URL}` : "http://localhost:5173")),
-	trustedOrigins: [env.ORIGIN || "http://localhost:5173", "https://asa-universe.vercel.app"],
+	baseURL: dev 
+        ? "http://localhost:5173" 
+        : (env.BETTER_AUTH_URL || env.ORIGIN || (env.VERCEL_PROJECT_PRODUCTION_URL ? `https://${env.VERCEL_PROJECT_PRODUCTION_URL}` : (env.VERCEL_URL ? `https://${env.VERCEL_URL}` : "http://localhost:5173"))),
+	trustedOrigins: [
+        env.ORIGIN || "http://localhost:5173", 
+        "https://asa-universe.vercel.app", 
+        "http://localhost:5173", 
+        "http://localhost:4173", 
+        "http://127.0.0.1:5173"
+    ],
 	secret: env.BETTER_AUTH_SECRET || "fallback_secret_please_change_in_production_to_avoid_this_error_123456",
 	database: prismaAdapter(prisma, { provider : 'postgresql'}),
 	session: {
