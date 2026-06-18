@@ -82,7 +82,7 @@
             <!-- Tabs -->
             <div class="flex border-b border-zinc-800 mb-10">
                 <a href="/login" class="pb-3 px-4 text-sm font-bold text-[#990000] border-b-2 border-[#990000] uppercase tracking-wider">Masuk</a>
-                <a href="/register" class="pb-3 px-4 text-sm font-bold text-zinc-500 hover:text-zinc-300 transition-colors uppercase tracking-wider">Daftarr</a>
+                <a href="/register" class="pb-3 px-4 text-sm font-bold text-zinc-500 hover:text-zinc-300 transition-colors uppercase tracking-wider">Daftar</a>
             </div>
 
             <h2 class="text-3xl font-black text-white mb-8 uppercase tracking-tight">Selamat Datang</h2>
