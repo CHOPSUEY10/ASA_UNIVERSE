@@ -48,20 +48,23 @@ export async function handle({ event, resolve }) {
 			}
 		}
 
-		// Helper for non-blocking visitor logging
-		const logVisitor = (path: string, ip: string, ua: string | null) => {
-			const promise = prisma.visitorLog.create({
-				data: {
-					path,
-					ipAddress: ip,
-					userAgent: ua
+		// Helper for visitor logging without dangling promises
+		const logVisitor = async (path: string, ip: string, ua: string | null) => {
+			try {
+				await prisma.visitorLog.create({
+					data: {
+						path,
+						ipAddress: ip,
+						userAgent: ua
+					}
+				});
+			} catch (err) {
+				// Suppress connection timeout errors specifically, or log others
+				if (err instanceof Error && err.message.includes('timeout')) {
+					console.warn('Visitor log connection timeout, skipped.');
+				} else {
+					console.error('Error logging visitor:', err);
 				}
-			}).catch(err => {
-				console.error('Error logging visitor background:', err);
-			});
-
-			if (event.platform?.context?.waitUntil) {
-				event.platform.context.waitUntil(promise);
 			}
 		};
 
@@ -87,7 +90,7 @@ export async function handle({ event, resolve }) {
 							'127.0.0.1';
 			}
 			const userAgent = event.request.headers.get('user-agent');
-			logVisitor(pathname, ipAddress, userAgent);
+			await logVisitor(pathname, ipAddress, userAgent);
 		}
 
 		// General Visitor Tracking
@@ -112,7 +115,7 @@ export async function handle({ event, resolve }) {
 								'127.0.0.1';
 				}
 				const userAgent = event.request.headers.get('user-agent');
-				logVisitor(pathname, ipAddress, userAgent);
+				await logVisitor(pathname, ipAddress, userAgent);
 			}
 		}
 	}
