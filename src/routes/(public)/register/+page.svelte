@@ -114,7 +114,7 @@
                 </div>
 
                 <button type="submit" disabled={isLoading} class="w-full py-4 bg-[#990000] text-white font-bold text-sm rounded-sm hover:bg-red-800 transition-colors disabled:opacity-50 uppercase tracking-widest shadow-lg shadow-black/10">
-                    {isLoading ? 'Processing...' : 'Create Account'}
+                    {isLoading ? 'Processing...' : 'Buat Akun'}
                 </button>
             </form>
 

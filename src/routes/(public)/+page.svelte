@@ -35,7 +35,7 @@
             </h1>
             
             <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-xl leading-relaxed">
-                Buat jersey kustom profesional untuk tim Anda. Dirancang untuk performa maksimal, didesain untuk kejayaan juara.
+                Buat jersey kustom profesional untuk tim Anda. Dirancang untuk performa maksimal, didesain untuk sang juara.
             </p>
             
             <div class="flex flex-wrap gap-4">
