@@ -80,11 +80,11 @@
             
             <!-- Tabs -->
             <div class="flex border-b border-zinc-800 mb-10">
-                <a href="/login" class="pb-3 px-4 text-sm font-bold text-zinc-500 hover:text-zinc-300 transition-colors uppercase tracking-wider">Login</a>
-                <a href="/register" class="pb-3 px-4 text-sm font-bold text-[#990000] border-b-2 border-[#990000] uppercase tracking-wider">Register</a>
+                <a href="/login" class="pb-3 px-4 text-sm font-bold text-zinc-500 hover:text-zinc-300 transition-colors uppercase tracking-wider">Masuk</a>
+                <a href="/register" class="pb-3 px-4 text-sm font-bold text-[#990000] border-b-2 border-[#990000] uppercase tracking-wider">Daftar</a>
             </div>
 
-            <h2 class="text-3xl font-black text-white mb-8 uppercase tracking-tight">Create Account</h2>
+            <h2 class="text-3xl font-black text-white mb-8 uppercase tracking-tight">Buat Akun</h2>
 
             {#if errorMessage}
                 <div class="mb-6 p-4 bg-red-950/30 border border-red-900/50 rounded-sm text-red-400 text-sm">
@@ -94,22 +94,22 @@
 
             <form onsubmit={handleRegister} class="space-y-6">
                 <div>
-                    <label for="name" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Full Name</label>
-                    <input type="text" id="name" bind:value={name} required class="block w-full px-4 py-3 bg-[#111] border border-zinc-800 rounded-sm text-white focus:ring-1 focus:ring-[#990000] focus:border-[#990000] transition-colors shadow-sm placeholder-zinc-600" placeholder="Your Name" />
+                    <label for="name" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Nama Lengkap</label>
+                    <input type="text" id="name" bind:value={name} required class="block w-full px-4 py-3 bg-[#111] border border-zinc-800 rounded-sm text-white focus:ring-1 focus:ring-[#990000] focus:border-[#990000] transition-colors shadow-sm placeholder-zinc-600" placeholder="Nama Anda" />
                 </div>
 
                 <div>
-                    <label for="email" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Email Address</label>
-                    <input type="email" id="email" bind:value={email} required class="block w-full px-4 py-3 bg-[#111] border border-zinc-800 rounded-sm text-white focus:ring-1 focus:ring-[#990000] focus:border-[#990000] transition-colors shadow-sm placeholder-zinc-600" placeholder="runner@asauniverse.com" />
+                    <label for="email" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Alamat Email</label>
+                    <input type="email" id="email" bind:value={email} required class="block w-full px-4 py-3 bg-[#111] border border-zinc-800 rounded-sm text-white focus:ring-1 focus:ring-[#990000] focus:border-[#990000] transition-colors shadow-sm placeholder-zinc-600" placeholder="user@asauniverse.com" />
                 </div>
 
                 <div>
-                    <label for="password" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Password</label>
+                    <label for="password" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Kata Sandi</label>
                     <input type="password" id="password" bind:value={password} required class="block w-full px-4 py-3 bg-[#111] border border-zinc-800 rounded-sm text-white focus:ring-1 focus:ring-[#990000] focus:border-[#990000] transition-colors shadow-sm placeholder-zinc-600" placeholder="••••••••" />
                 </div>
 
                 <div>
-                    <label for="confirmPassword" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Confirm Password</label>
+                    <label for="confirmPassword" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Konfirmasi Kata Sandi</label>
                     <input type="password" id="confirmPassword" bind:value={confirmPassword} required class="block w-full px-4 py-3 bg-[#111] border border-zinc-800 rounded-sm text-white focus:ring-1 focus:ring-[#990000] focus:border-[#990000] transition-colors shadow-sm placeholder-zinc-600" placeholder="••••••••" />
                 </div>
 

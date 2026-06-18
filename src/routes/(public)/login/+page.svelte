@@ -81,11 +81,11 @@
             
             <!-- Tabs -->
             <div class="flex border-b border-zinc-800 mb-10">
-                <a href="/login" class="pb-3 px-4 text-sm font-bold text-[#990000] border-b-2 border-[#990000] uppercase tracking-wider">Login</a>
-                <a href="/register" class="pb-3 px-4 text-sm font-bold text-zinc-500 hover:text-zinc-300 transition-colors uppercase tracking-wider">Register</a>
+                <a href="/login" class="pb-3 px-4 text-sm font-bold text-[#990000] border-b-2 border-[#990000] uppercase tracking-wider">Masuk</a>
+                <a href="/register" class="pb-3 px-4 text-sm font-bold text-zinc-500 hover:text-zinc-300 transition-colors uppercase tracking-wider">Daftarr</a>
             </div>
 
-            <h2 class="text-3xl font-black text-white mb-8 uppercase tracking-tight">Welcome Back</h2>
+            <h2 class="text-3xl font-black text-white mb-8 uppercase tracking-tight">Selamat Datang</h2>
 
             {#if errorMessage}
                 <div class="mb-6 p-4 bg-red-950/30 border border-red-900/50 rounded-sm text-red-400 text-sm">
@@ -95,21 +95,21 @@
 
             <form onsubmit={handleEmailLogin} class="space-y-6">
                 <div>
-                    <label for="email" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Email Address</label>
-                    <input type="email" id="email" bind:value={email} required class="block w-full px-4 py-3 bg-[#111] border border-zinc-800 rounded-sm text-white focus:ring-1 focus:ring-[#990000] focus:border-[#990000] transition-colors shadow-sm placeholder-zinc-600" placeholder="runner@asauniverse.com" />
+                    <label for="email" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Alamat Email</label>
+                    <input type="email" id="email" bind:value={email} required class="block w-full px-4 py-3 bg-[#111] border border-zinc-800 rounded-sm text-white focus:ring-1 focus:ring-[#990000] focus:border-[#990000] transition-colors shadow-sm placeholder-zinc-600" placeholder="user@asauniverse.com" />
                 </div>
 
                 <div>
-                    <label for="password" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Password</label>
+                    <label for="password" class="block text-xs font-bold text-zinc-300 mb-2 uppercase tracking-wider">Kata Sandi</label>
                     <input type="password" id="password" bind:value={password} required class="block w-full px-4 py-3 bg-[#111] border border-zinc-800 rounded-sm text-white focus:ring-1 focus:ring-[#990000] focus:border-[#990000] transition-colors shadow-sm placeholder-zinc-600" placeholder="••••••••" />
                 </div>
 
                 <div class="flex justify-end">
-                    <a href="/forgot-password" class="text-xs font-bold text-[#990000] hover:text-red-700 transition-colors uppercase tracking-wider">Forgot Password?</a>
+                    <a href="/forgot-password" class="text-xs font-bold text-[#990000] hover:text-red-700 transition-colors uppercase tracking-wider">Lupa Kata Sandi?</a>
                 </div>
 
                 <button type="submit" disabled={isLoading} class="w-full py-4 bg-[#990000] text-white font-bold text-sm rounded-sm hover:bg-red-800 transition-colors disabled:opacity-50 uppercase tracking-widest shadow-lg shadow-black/10">
-                    {isLoading ? 'Processing...' : 'Access Portal'}
+                    {isLoading ? 'Processing...' : 'Masuk'}
                 </button>
             </form>
 
@@ -117,7 +117,7 @@
                 <div class="absolute inset-0 flex items-center">
                     <div class="w-full border-t border-zinc-800"></div>
                 </div>
-                <div class="relative bg-[#0a0a0a] px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Or continue with</div>
+                <div class="relative bg-[#0a0a0a] px-4 text-xs font-bold text-gray-400 uppercase tracking-wider">Atau lanjutkan dengan</div>
             </div>
 
             <div class="mt-8 grid grid-cols-1 gap-4">
